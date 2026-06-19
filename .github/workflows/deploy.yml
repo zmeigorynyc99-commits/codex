@@ -1,0 +1,66 @@
+name: Deploy
+
+# Deploys to the Ubuntu VPS over SSH. The VPS pulls the latest code and
+# rebuilds the Docker images. Configure the repository secrets listed below.
+#
+# Required secrets:
+#   VPS_HOST        - server IP or hostname
+#   VPS_USER        - SSH user (e.g. deploy)
+#   VPS_SSH_KEY     - private SSH key with access to the server
+#   VPS_APP_DIR     - absolute path to the checkout on the server (e.g. /opt/tiny-tools)
+# Optional secrets (passed as build args):
+#   SITE_URL, ANALYTICS_DOMAIN, ANALYTICS_SRC, DONATE_URL, ENABLE_ADS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & deploy on VPS
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy over SSH
+        run: |
+          ssh -i ~/.ssh/id_deploy "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" bash -s <<'EOF'
+            set -euo pipefail
+            cd "${{ secrets.VPS_APP_DIR }}"
+
+            echo "==> Pulling latest code"
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "==> Writing build environment"
+            cat > .env <<ENV
+          NEXT_PUBLIC_SITE_URL=${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_ANALYTICS_DOMAIN=${{ secrets.ANALYTICS_DOMAIN }}
+          NEXT_PUBLIC_ANALYTICS_SRC=${{ secrets.ANALYTICS_SRC }}
+          NEXT_PUBLIC_DONATE_URL=${{ secrets.DONATE_URL }}
+          NEXT_PUBLIC_ENABLE_ADS=${{ secrets.ENABLE_ADS }}
+          ENV
+
+            echo "==> Building and restarting containers"
+            docker compose build web
+            docker compose up -d
+
+            echo "==> Pruning old images"
+            docker image prune -f
+          EOF
+
+      - name: Smoke check
+        run: |
+          ssh -i ~/.ssh/id_deploy "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            "curl -fsS -o /dev/null http://127.0.0.1:80/robots.txt && echo 'Deploy OK'"

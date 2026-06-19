@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a8a"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="150" width="120" height="120" rx="26" fill="#ffffff"/>
+  <text x="140" y="238" font-family="system-ui, sans-serif" font-size="64" font-weight="800"
+        text-anchor="middle" fill="#2563eb">TT</text>
+  <text x="240" y="260" font-family="system-ui, sans-serif" font-size="84" font-weight="800" fill="#ffffff">Tiny Tools</text>
+  <text x="84" y="360" font-family="system-ui, sans-serif" font-size="38" fill="#dbeafe">Fast, free, privacy-friendly online tools</text>
+  <text x="84" y="430" font-family="system-ui, sans-serif" font-size="30" fill="#bfdbfe">Calculators · Converters · Text · Generators · Developer</text>
+  <text x="84" y="540" font-family="system-ui, sans-serif" font-size="26" fill="#93c5fd">No sign-up · No tracking · Runs in your browser</text>
+</svg>
