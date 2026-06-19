@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+coverage
+test-results
+playwright-report
+.lighthouseci
+.git
+.github
+Dockerfile
+docker-compose.yml
+*.md
+.env*
+npm-debug.log*
