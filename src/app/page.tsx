@@ -4,6 +4,7 @@ import { siteConfig } from '@/lib/site';
 import { CATEGORIES, getToolsByCategory } from '@/lib/tools';
 import { ToolSearchGrid } from '@/components/ToolSearchGrid';
 import { AdSlot } from '@/components/AdSlot';
+import { HomeFeed } from '@/components/cms/HomeFeed';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -47,6 +48,8 @@ export default function HomePage({ searchParams }: { searchParams: { q?: string 
           ))}
         </div>
       </section>
+
+      <HomeFeed />
     </div>
   );
 }

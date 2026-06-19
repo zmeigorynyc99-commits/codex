@@ -92,6 +92,24 @@ search, categories and structured data update automatically.
 
 ---
 
+## One-command production setup
+
+On a fresh Ubuntu VPS with Docker installed, from the repository root:
+
+```bash
+EMAIL=you@botera.md \
+ADMIN_EMAIL=admin@botera.md ADMIN_PASSWORD='choose-a-strong-password' \
+./scripts/setup.sh
+```
+
+`scripts/setup.sh` configures Nginx for the domain (`botera.md` by default,
+override with `DOMAIN=`), writes `.env`, builds the image, issues a Let's
+Encrypt certificate, starts the stack, and creates the admin account. Before DNS
+is pointed at the server you can run it with `SKIP_CERTS=1` to use a self-signed
+certificate. Full step-by-step instructions remain in **DEPLOYMENT.md**.
+
+---
+
 ## Local development
 
 Requires Node.js 20+.
@@ -127,6 +145,8 @@ All configuration is via environment variables (see `.env.example`). Because
 | `NEXT_PUBLIC_ANALYTICS_DOMAIN` / `..._SRC` | Cookie-free analytics (e.g. Plausible). Disabled when empty. |
 | `NEXT_PUBLIC_DONATE_URL` | Shows the donation button when set. |
 | `NEXT_PUBLIC_ENABLE_ADS` | `true` activates the (otherwise placeholder) ad slots. |
+| `CMS_DB_PATH` | SQLite database file (runtime). Default `./data/cms.db`; `/app/data/cms.db` in Docker. |
+| `CMS_UPLOAD_DIR` | Directory for uploaded tutorial images (runtime). Default `/app/data/uploads` in Docker. |
 
 > **Enabling analytics or ads** loads a third-party script, so add its origin to
 > the `script-src` (and `connect-src`) directives in `src/middleware.ts`,
@@ -161,6 +181,120 @@ localised by extending the registry entries in `src/lib/tools.ts`.
 
 ---
 
+## Linux Tutorials CMS
+
+A self-hosted CMS for publishing Linux administration tutorials lives alongside
+the tools. It adds an embedded **SQLite** database (via `better-sqlite3`), a
+cookie-session **admin area**, a secure **Markdown** pipeline, and a public
+tutorials section.
+
+- **Public:** `/linux-tutorials` (listing with search, category/tag/difficulty/
+  distribution filters and pagination), `/linux-tutorials/[slug]` (article with
+  table of contents, reading time, badges, prev/next, related, share buttons,
+  copy-able code blocks and destructive-command warnings), and an RSS feed at
+  `/linux-tutorials/rss.xml`. The homepage shows a “Latest Linux Tutorials” feed.
+- **Admin:** `/admin` (dashboard), `/admin/tutorials/new`, `/admin/tutorials/[id]/edit`
+  (Markdown editor with live preview, autosave, image upload) and
+  `/admin/tutorials/[id]/preview`. All admin pages and `/api/admin/*` routes are
+  protected; drafts, previews and admin routes are excluded from search engines.
+
+### Security model
+
+Strict, nonce-based CSP applies site-wide. Admin sessions use scrypt-hashed
+passwords and HMAC-free opaque tokens stored hashed in the database; mutations
+require a CSRF double-submit token and a same-origin check. Markdown is rendered
+server-side (marked → highlight.js → sanitize-html), so no user HTML or scripts
+survive and **no submitted code is ever executed**. Uploads are restricted by
+type and size and stored with server-generated names (no path traversal). The
+login endpoint is rate-limited.
+
+### How to create an admin account
+
+The app migrates the database automatically on first boot. Create an admin with
+the self-contained script (works on the host or inside the container):
+
+```bash
+# Docker (recommended): runs inside the running web container
+docker compose exec web node scripts/create-admin.mjs admin@botera.md 'a-strong-password'
+
+# Local development
+node scripts/create-admin.mjs admin@botera.md 'a-strong-password'
+```
+
+Re-running with an existing email updates that admin’s password. Then sign in at
+`/admin/login`.
+
+### How to publish a tutorial
+
+1. Sign in at `/admin/login` and click **New tutorial**.
+2. Enter a title — the slug is generated automatically (editable; duplicates are
+   prevented, and the slug stays stable if you later change the title).
+3. Write the body in Markdown. Supported: headings, lists, links, tables,
+   blockquotes, inline code, fenced code blocks with syntax highlighting (Bash,
+   Shell, YAML, JSON, Nginx, Dockerfile, Python, JavaScript, INI/config, SQL,
+   diff), images, and GitHub-style callouts:
+
+   ```markdown
+   > [!WARNING]
+   > This command can lock you out of the server.
+   ```
+
+   Code blocks containing destructive commands (e.g. `rm -rf /`, `mkfs`, `dd`)
+   automatically get a red warning banner.
+4. Set difficulty, distribution, category, tags, author and (optionally) SEO
+   title/description and a cover image.
+5. Use **Show preview** for a live render, or **Open preview** for the full page.
+6. Click **Publish** (or save as a draft). Drafts never appear publicly, in the
+   feed, the sitemap or RSS. Existing drafts autosave while you edit.
+
+### How to manage categories and tags
+
+- **Categories** are seeded on first boot (Getting Started, Networking, Security,
+  …). Add more via the API used by the editor:
+  `POST /api/admin/categories { "name": "Monitoring" }`, or remove with
+  `DELETE /api/admin/categories/:id`. Assign a category per tutorial in the editor.
+- **Tags** are free-form: type comma-separated tags in the editor and they are
+  created automatically and de-duplicated. Tag and category pages are reachable
+  via `/linux-tutorials?tag=<slug>` and `/linux-tutorials?category=<slug>`.
+
+### How images are stored
+
+Cover images can be either an external `https://` URL or an uploaded file.
+Uploads (PNG/JPEG/WebP/GIF/SVG, max 3 MB) are validated, given a random
+filename and written to `CMS_UPLOAD_DIR` (default `/app/data/uploads`, on the
+`cms-data` Docker volume). They are served read-only via
+`/api/uploads/<file>` with caching and `nosniff`.
+
+### How to back up tutorial content
+
+All CMS state is the SQLite database plus the uploads directory, both on the
+`cms-data` volume. Back them up with a single tarball:
+
+```bash
+# Back up the database + uploads from the volume
+docker run --rm -v codex_cms-data:/data -v "$PWD":/backup alpine \
+  tar czf /backup/cms-backup-$(date +%F).tar.gz -C /data .
+
+# Restore
+docker run --rm -v codex_cms-data:/data -v "$PWD":/backup alpine \
+  sh -c 'cd /data && tar xzf /backup/cms-backup-YYYY-MM-DD.tar.gz'
+```
+
+(The volume name is `<project>_cms-data`; check `docker volume ls`.) For a quick
+DB-only snapshot you can also copy the file:
+`docker compose exec web sh -c 'cp /app/data/cms.db /app/data/cms-backup.db'`.
+
+### How to deploy the database changes
+
+Migrations live in `src/lib/cms/migrations.ts` and are applied automatically and
+idempotently the first time the app opens the database after a deploy — there is
+no manual migration step. To add a schema change, append a new `Migration` entry
+with the next `id`; it runs on the next boot and is recorded in
+`schema_migrations`. Tutorial edits keep the last 20 revisions per tutorial in
+`tutorial_revisions`.
+
+---
+
 ## 🚀 Launch checklist
 
 **Content & branding**
@@ -187,6 +321,12 @@ localised by extending the registry entries in `src/lib/tools.ts`.
 - [ ] Docker + Compose installed; firewall allows 80/443 (§2).
 - [ ] HTTPS issued via `scripts/init-letsencrypt.sh` (§5); auto-renewal running.
 - [ ] `curl -sI https://yourdomain` shows the CSP + HSTS headers.
+
+**Linux Tutorials CMS**
+- [ ] An admin account created (`docker compose exec web node scripts/create-admin.mjs …`).
+- [ ] First tutorial published and visible at `/linux-tutorials` and in the homepage feed.
+- [ ] `/linux-tutorials/rss.xml` resolves; drafts are excluded.
+- [ ] `cms-data` volume backup verified (see “How to back up tutorial content”).
 
 **Operations**
 - [ ] Deploy secrets configured if using the GitHub Actions workflow (§10).

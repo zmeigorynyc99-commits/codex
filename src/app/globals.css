@@ -78,3 +78,116 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- Linux Tutorials: long-form article typography ---- */
+@layer components {
+  .tutorial-prose {
+    @apply text-slate-700 dark:text-slate-300;
+  }
+  .tutorial-prose h2 {
+    @apply mt-10 scroll-mt-24 border-b border-slate-200 pb-2 text-2xl font-bold dark:border-slate-800;
+  }
+  .tutorial-prose h3 {
+    @apply mt-8 scroll-mt-24 text-xl font-semibold;
+  }
+  .tutorial-prose h4 {
+    @apply mt-6 scroll-mt-24 text-lg font-semibold;
+  }
+  .tutorial-prose p {
+    @apply my-4 leading-relaxed;
+  }
+  .tutorial-prose ul {
+    @apply my-4 list-disc space-y-1 pl-6;
+  }
+  .tutorial-prose ol {
+    @apply my-4 list-decimal space-y-1 pl-6;
+  }
+  .tutorial-prose a {
+    @apply font-medium text-brand-700 underline underline-offset-2 hover:text-brand-800 dark:text-brand-300;
+  }
+  .tutorial-prose blockquote {
+    @apply my-4 border-l-4 border-slate-300 pl-4 italic text-slate-600 dark:border-slate-700 dark:text-slate-400;
+  }
+  .tutorial-prose :not(pre) > code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.85em] text-pink-700 dark:bg-slate-800 dark:text-pink-300;
+  }
+  .tutorial-prose img {
+    @apply my-6 max-w-full rounded-lg border border-slate-200 dark:border-slate-800;
+  }
+  .tutorial-prose table {
+    @apply my-6 w-full border-collapse overflow-hidden rounded-lg border border-slate-200 text-sm dark:border-slate-800;
+  }
+  .tutorial-prose th,
+  .tutorial-prose td {
+    @apply border border-slate-200 px-3 py-2 text-left dark:border-slate-800;
+  }
+  .tutorial-prose th {
+    @apply bg-slate-100 font-semibold dark:bg-slate-800;
+  }
+  .tutorial-prose .heading-anchor {
+    @apply mr-2 text-slate-300 no-underline opacity-0 transition-opacity dark:text-slate-600;
+  }
+  .tutorial-prose h2:hover .heading-anchor,
+  .tutorial-prose h3:hover .heading-anchor {
+    @apply opacity-100;
+  }
+
+  /* Code blocks */
+  .code-block {
+    @apply my-5 overflow-hidden rounded-lg border border-slate-700 bg-slate-900;
+  }
+  .code-toolbar {
+    @apply flex items-center justify-between border-b border-slate-700 bg-slate-800 px-3 py-1.5;
+  }
+  .code-lang {
+    @apply text-xs font-medium uppercase tracking-wide text-slate-400;
+  }
+  .code-copy {
+    @apply rounded border border-slate-600 bg-slate-700 px-2 py-1 text-xs font-medium text-slate-200 hover:bg-slate-600;
+  }
+  .code-block pre {
+    @apply overflow-x-auto p-4;
+  }
+  .code-block pre code {
+    @apply font-mono text-sm leading-relaxed text-slate-100;
+  }
+  .code-danger {
+    @apply flex items-start gap-2 border-b border-red-800 bg-red-950/60 px-3 py-2 text-xs font-medium text-red-200;
+  }
+
+  /* Callouts */
+  .callout {
+    @apply my-5 rounded-lg border-l-4 p-4;
+  }
+  .callout-title {
+    @apply mb-1 font-semibold;
+  }
+  .callout-note { @apply border-slate-400 bg-slate-50 dark:bg-slate-900/40; }
+  .callout-tip { @apply border-green-500 bg-green-50 dark:bg-green-950/30; }
+  .callout-important { @apply border-brand-500 bg-brand-50 dark:bg-brand-950/30; }
+  .callout-warning { @apply border-amber-500 bg-amber-50 dark:bg-amber-950/30; }
+  .callout-danger { @apply border-red-500 bg-red-50 dark:bg-red-950/30; }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-difficulty-beginner { @apply bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300; }
+  .badge-difficulty-intermediate { @apply bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300; }
+  .badge-difficulty-advanced { @apply bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300; }
+  .badge-neutral { @apply bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300; }
+  .badge-distro { @apply bg-brand-100 text-brand-800 dark:bg-brand-900/40 dark:text-brand-300; }
+}
+
+/* highlight.js theme (GitHub-dark inspired, self-contained) */
+.hljs { color: #e6edf3; }
+.hljs-comment, .hljs-quote { color: #8b949e; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-meta-keyword { color: #ff7b72; }
+.hljs-string, .hljs-attr, .hljs-template-tag, .hljs-addition { color: #a5d6ff; }
+.hljs-title, .hljs-section, .hljs-title.function_ { color: #d2a8ff; }
+.hljs-number, .hljs-literal, .hljs-variable, .hljs-attribute { color: #79c0ff; }
+.hljs-type, .hljs-class .hljs-title { color: #ffa657; }
+.hljs-meta, .hljs-symbol, .hljs-bullet { color: #ffa657; }
+.hljs-deletion { color: #ffdcd7; background: #67060c; }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }

@@ -10,7 +10,29 @@ import { NextResponse, type NextRequest } from 'next/server';
  * scripts. Inline styles are permitted (low risk) because Tailwind and React
  * occasionally emit style attributes.
  */
+const SESSION_COOKIE = 'tt_admin_session';
+
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Coarse, cookie-presence gate for admin areas. Full, DB-backed
+  // authentication is enforced server-side in the admin layout and in every
+  // /api/admin route handler; this only avoids rendering admin shells to
+  // anonymous visitors and returns 401 quickly for unauthenticated API calls.
+  const isAdminPage = pathname.startsWith('/admin') && pathname !== '/admin/login';
+  const isAdminApi = pathname.startsWith('/api/admin') && pathname !== '/api/admin/login';
+  if (isAdminPage || isAdminApi) {
+    const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value);
+    if (!hasSession) {
+      if (isAdminApi) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      const loginUrl = new URL('/admin/login', request.url);
+      loginUrl.searchParams.set('next', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
   const csp = [
@@ -18,7 +40,7 @@ export function middleware(request: NextRequest) {
     `base-uri 'self'`,
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${process.env.NODE_ENV === 'production' ? '' : "'unsafe-eval'"}`,
     `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: blob:`,
+    `img-src 'self' https: data: blob:`,
     `font-src 'self'`,
     `connect-src 'self'`,
     `object-src 'none'`,
@@ -38,6 +60,16 @@ export function middleware(request: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set('content-security-policy', csp);
+
+  // Keep admin, API and preview routes out of search indexes.
+  if (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/api') ||
+    pathname.includes('/preview')
+  ) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
   return response;
 }
 

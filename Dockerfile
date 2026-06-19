@@ -3,8 +3,9 @@
 # ---- Dependencies ----
 FROM node:20-alpine AS deps
 WORKDIR /app
-# libc6-compat helps some native deps run on Alpine.
-RUN apk add --no-cache libc6-compat
+# libc6-compat helps native deps run on Alpine; build tools allow
+# better-sqlite3 to compile if no musl prebuilt binary is available.
+RUN apk add --no-cache libc6-compat python3 make g++
 COPY package.json package-lock.json ./
 RUN npm ci
 
@@ -35,7 +36,12 @@ WORKDIR /app
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
-    HOSTNAME=0.0.0.0
+    HOSTNAME=0.0.0.0 \
+    CMS_DB_PATH=/app/data/cms.db \
+    CMS_UPLOAD_DIR=/app/data/uploads
+
+# libstdc++ is required at runtime by the better-sqlite3 native addon.
+RUN apk add --no-cache libstdc++
 
 # Run as an unprivileged user.
 RUN addgroup --system --gid 1001 nodejs \
@@ -45,8 +51,14 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Admin/maintenance scripts (e.g. create-admin) for `docker compose exec`.
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+
+# Persistent data directory (SQLite database + uploaded images).
+RUN mkdir -p /app/data/uploads && chown -R nextjs:nodejs /app/data
 
 USER nextjs
+VOLUME ["/app/data"]
 EXPOSE 3000
 
 # Lightweight container healthcheck.

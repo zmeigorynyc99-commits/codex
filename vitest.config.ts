@@ -8,7 +8,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['src/lib/tools-logic/**/*.ts'],
+      include: ['src/lib/tools-logic/**/*.ts', 'src/lib/cms/**/*.ts'],
     },
   },
   resolve: {

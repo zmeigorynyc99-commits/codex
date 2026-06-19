@@ -13,15 +13,22 @@ services:
     image: tiny-tools:latest
     container_name: tiny-tools-web
     restart: unless-stopped
+    environment:
+      # Runtime CMS configuration (database + uploads live on the volume).
+      CMS_DB_PATH: /app/data/cms.db
+      CMS_UPLOAD_DIR: /app/data/uploads
     expose:
       - "3000"
     # No host port published: only nginx talks to the app over the internal network.
+    volumes:
+      # Persists the SQLite database and uploaded images across deploys.
+      - cms-data:/app/data
     networks:
       - web
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 320M
 
   nginx:
     image: nginx:1.27-alpine
@@ -54,3 +61,7 @@ services:
 networks:
   web:
     driver: bridge
+
+volumes:
+  # Holds the CMS SQLite database and uploaded tutorial images.
+  cms-data:

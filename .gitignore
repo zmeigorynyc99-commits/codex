@@ -36,3 +36,6 @@ yarn-error.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# CMS runtime data (SQLite db + uploads)
+/data
