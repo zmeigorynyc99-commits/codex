@@ -3,6 +3,8 @@ import { guardMutation, isNextResponse, readJson, badRequest, currentApiAdmin, u
 import { validateTutorialInput } from '@/lib/cms/validation';
 import { createTutorial, listTutorials } from '@/lib/cms/tutorials';
 import { CMS_LIMITS } from '@/lib/cms/constants';
+import { pingIndexNow } from '@/lib/cms/indexnow';
+import { absoluteUrl } from '@/lib/site';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -38,5 +40,8 @@ export async function POST(request: Request) {
   if (!validation.ok || !validation.value) return badRequest(validation.errors);
 
   const tutorial = createTutorial(validation.value);
+  if (tutorial.status === 'published') {
+    void pingIndexNow([absoluteUrl(`/linux-tutorials/${tutorial.slug}`)]);
+  }
   return NextResponse.json({ ok: true, tutorial }, { status: 201 });
 }
