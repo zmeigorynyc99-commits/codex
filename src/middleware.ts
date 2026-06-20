@@ -57,6 +57,8 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('content-security-policy', csp);
+  // Expose the path so server components (e.g. the IP block gate) can read it.
+  requestHeaders.set('x-pathname', pathname);
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set('content-security-policy', csp);

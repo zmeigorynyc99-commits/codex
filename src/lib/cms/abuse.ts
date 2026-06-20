@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { rateLimit, clientIp } from './api';
+import { isBlocked } from './blocklist';
 
 export interface GuardOptions {
   /** Logical action name, used as the rate-limit bucket key. */
@@ -26,6 +27,11 @@ export function guardPublicSubmission(
 ): NextResponse | null {
   const h = headers();
   const host = h.get('host');
+
+  // Reject submissions from blocked IPs outright.
+  if (isBlocked(clientIp())) {
+    return NextResponse.json({ error: 'Your access has been restricted.' }, { status: 403 });
+  }
 
   // Same-origin enforcement.
   const origin = request.headers.get('origin');

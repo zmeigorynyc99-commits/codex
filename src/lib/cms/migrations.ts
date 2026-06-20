@@ -141,4 +141,22 @@ export const MIGRATIONS: Migration[] = [
       CREATE INDEX IF NOT EXISTS idx_messages_status ON messages(status, created_at);
     `,
   },
+  {
+    id: 3,
+    name: 'ip_capture_and_blocklist',
+    sql: `
+      -- Store the real client IP (in addition to the privacy hash) so admins
+      -- can identify and block abusers.
+      ALTER TABLE forum_threads ADD COLUMN ip_address TEXT;
+      ALTER TABLE forum_replies ADD COLUMN ip_address TEXT;
+      ALTER TABLE comments ADD COLUMN ip_address TEXT;
+      ALTER TABLE messages ADD COLUMN ip_address TEXT;
+
+      CREATE TABLE IF NOT EXISTS blocked_ips (
+        ip TEXT PRIMARY KEY,
+        reason TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+    `,
+  },
 ];

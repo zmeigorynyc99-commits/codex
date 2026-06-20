@@ -7,7 +7,7 @@ export function DonateButton({ className = '' }: { className?: string }) {
     <a
       href={siteConfig.donateUrl}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener noreferrer nofollow"
       className={`btn-secondary ${className}`}
     >
       <span aria-hidden="true">♥</span>

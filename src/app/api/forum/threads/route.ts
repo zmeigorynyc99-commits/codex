@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   if (content.length < 5) return NextResponse.json({ error: 'Please write a longer message.' }, { status: 400 });
 
   const status = classifyContent(`${title}\n${content}`);
-  const thread = createThread({ title, authorName: author, body: content, status, ipHash: hashIp(clientIp()) });
+  const thread = createThread({ title, authorName: author, body: content, status, ipHash: hashIp(clientIp()), ipAddress: clientIp() });
 
   return NextResponse.json({ ok: true, slug: thread.slug, pending: status !== 'approved' }, { status: 201 });
 }

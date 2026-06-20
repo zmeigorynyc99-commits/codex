@@ -8,11 +8,10 @@ import { siteConfig } from '@/lib/site';
  * on-site /support page. No third-party scripts or pixels are loaded.
  */
 export function SupportCta({ compact = false }: { compact?: boolean }) {
-  const coffee = siteConfig.coffeeUrl || siteConfig.supportUrl || siteConfig.donateUrl;
-  const dollar = siteConfig.donateUrl || siteConfig.supportUrl || siteConfig.coffeeUrl;
-
-  const coffeeHref = coffee || '/support';
-  const dollarHref = dollar || '/support';
+  // Strict mapping: each button uses its own configured URL, falling back to
+  // the on-site /support page when that variable is not set.
+  const coffeeHref = siteConfig.coffeeUrl || '/support';
+  const dollarHref = siteConfig.supportUrl || '/support';
   const external = (href: string) => /^https?:\/\//i.test(href);
 
   return (

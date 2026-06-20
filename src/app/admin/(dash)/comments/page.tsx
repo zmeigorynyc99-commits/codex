@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { listCommentsForModeration } from '@/lib/cms/comments';
 import { formatDate } from '@/lib/cms/format';
 import { ModerationActions } from '@/components/admin/ModerationActions';
+import { BlockIpButton } from '@/components/admin/BlockIpButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Comment moderation' };
@@ -34,7 +35,7 @@ export default function CommentsModerationPage() {
                 <span className="text-xs text-slate-400">{formatDate(c.createdAt)}</span>
               </div>
               <div className="mt-2 whitespace-pre-wrap break-words text-sm text-slate-600 dark:text-slate-400">{c.body}</div>
-              <div className="mt-3">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                 <ModerationActions
                   entity="comment"
                   id={c.id}
@@ -44,6 +45,7 @@ export default function CommentsModerationPage() {
                     { action: 'delete', label: 'Delete', danger: true, confirm: 'Delete this comment?' },
                   ]}
                 />
+                <BlockIpButton ip={c.ipAddress} reason={`comment on ${c.tutorialTitle}`} />
               </div>
             </li>
           ))}

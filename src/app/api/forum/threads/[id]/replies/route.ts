@@ -29,7 +29,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   if (content.length < 2) return NextResponse.json({ error: 'Please write a longer reply.' }, { status: 400 });
 
   const status = classifyContent(content);
-  const reply = createReply(threadId, { authorName: author, body: content, status, ipHash: hashIp(clientIp()) });
+  const reply = createReply(threadId, { authorName: author, body: content, status, ipHash: hashIp(clientIp()), ipAddress: clientIp() });
   if (!reply) return NextResponse.json({ error: 'This thread is closed or does not exist.' }, { status: 400 });
 
   return NextResponse.json({ ok: true, pending: status !== 'approved' }, { status: 201 });
