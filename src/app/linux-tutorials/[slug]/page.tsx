@@ -16,6 +16,9 @@ import { JsonLd } from '@/components/JsonLd';
 import { listComments } from '@/lib/cms/comments';
 import { CommentSection } from '@/components/community/CommentSection';
 import { SupportCta } from '@/components/community/SupportCta';
+import { LikeButton } from '@/components/community/LikeButton';
+import { likeCount, hasLiked } from '@/lib/cms/likes';
+import { clientIp } from '@/lib/cms/api';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +37,8 @@ export default function TutorialPage({ params }: { params: { slug: string } }) {
   const { prev, next } = getAdjacent(tutorial);
   const related = getRelated(tutorial, 3);
   const comments = listComments(tutorial.id, { publicOnly: true });
+  const likes = likeCount(tutorial.id);
+  const liked = hasLiked(tutorial.id, clientIp());
   const url = absoluteUrl(`/linux-tutorials/${tutorial.slug}`);
 
   return (
@@ -105,7 +110,8 @@ export default function TutorialPage({ params }: { params: { slug: string } }) {
             </div>
           )}
 
-          <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 dark:border-slate-800">
+            <LikeButton tutorialId={tutorial.id} initialCount={likes} initialLiked={liked} />
             <ShareButtons url={url} title={tutorial.title} />
           </div>
 

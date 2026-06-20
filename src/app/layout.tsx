@@ -9,6 +9,7 @@ import { Footer } from '@/components/Footer';
 import { Analytics } from '@/components/Analytics';
 import { isBlocked } from '@/lib/cms/blocklist';
 import { clientIp } from '@/lib/cms/api';
+import { logRequest } from '@/lib/cms/analytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -61,7 +62,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // never lock themselves out of moderation, and /api enforces its own checks.
   const pathname = h.get('x-pathname') ?? '';
   const exempt = pathname.startsWith('/admin') || pathname.startsWith('/api');
-  const blocked = !exempt && isBlocked(clientIp());
+  const ip = clientIp();
+  const blocked = !exempt && isBlocked(ip);
+
+  // Record the page view for the admin statistics dashboard. Skip the admin
+  // area, API routes and prefetch requests so counts reflect real visits.
+  const isPrefetch = h.get('next-router-prefetch') === '1' || h.get('purpose') === 'prefetch';
+  if (pathname && !exempt && !isPrefetch) {
+    const tutorialSlug = pathname.startsWith('/linux-tutorials/')
+      ? pathname.slice('/linux-tutorials/'.length).split('/')[0] || null
+      : null;
+    logRequest({ ip, path: pathname, tutorialSlug, userAgent: h.get('user-agent') });
+  }
 
   return (
     <html lang={siteConfig.locale} suppressHydrationWarning>

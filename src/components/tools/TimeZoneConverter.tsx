@@ -8,7 +8,10 @@ import {
   getZoneOffsetMinutes,
   getZoneShortName,
   formatOffset,
+  isValidTimeZone,
 } from '@/lib/tools-logic/timezone';
+import { buildZoneOptions } from '@/lib/tools-logic/timezone-data';
+import { ZonePicker } from './ZonePicker';
 
 function localZone(): string {
   try {
@@ -29,60 +32,44 @@ export default function TimeZoneConverter() {
   const [sourceZone, setSourceZone] = useState(localZone());
   const [targets, setTargets] = useState<string[]>(['UTC', 'America/New_York', 'Europe/London', 'Asia/Kolkata', 'Asia/Tokyo']);
 
-  // Full IANA list (all countries) computed once on the client.
-  const allZones = useMemo(() => {
-    const zones = getAllTimeZones();
-    const local = localZone();
-    return Array.from(new Set([local, ...zones]));
-  }, []);
+  const options = useMemo(() => buildZoneOptions(getAllTimeZones()), []);
 
-  // Interpret the wall-clock input as being in the source zone, producing a UTC instant.
+  // Interpret the wall-clock input as being in the source zone → a UTC instant.
   const instant = useMemo(() => {
     const match = datetime.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+)/);
     if (!match) return null;
     const [, y, mo, d, h, mi] = match.map(Number);
     const guessUtc = Date.UTC(y!, mo! - 1, d!, h!, mi!);
-    const offset = getZoneOffsetMinutes(new Date(guessUtc), sourceZone);
-    return new Date(guessUtc - offset * 60000);
+    const offset = isValidTimeZone(sourceZone) ? getZoneOffsetMinutes(new Date(guessUtc), sourceZone) : 0;
+    const safeOffset = Number.isFinite(offset) ? offset : 0;
+    return new Date(guessUtc - safeOffset * 60000);
   }, [datetime, sourceZone]);
 
   function describe(zone: string) {
-    if (!instant) return { time: '', offset: '', short: '' };
+    if (!instant || !isValidTimeZone(zone)) return { time: '—', offset: '', short: '' };
     return {
-      time: formatInTimeZone(instant, zone),
+      time: formatInTimeZone(instant, zone) || '—',
       offset: formatOffset(getZoneOffsetMinutes(instant, zone)),
       short: getZoneShortName(instant, zone),
     };
   }
 
+  const src = describe(sourceZone);
+
   return (
     <ToolShell>
-      {/* Datalist of every supported zone, shared by all zone inputs. */}
-      <datalist id="tz-zones">
-        {allZones.map((z) => (
-          <option key={z} value={z} />
-        ))}
-      </datalist>
-
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label htmlFor="dt" className="label">Date &amp; time</label>
           <input id="dt" type="datetime-local" value={datetime} onChange={(e) => setDatetime(e.target.value)} className="input" />
         </div>
         <div>
-          <label htmlFor="src" className="label">Source time zone (type to search)</label>
-          <input
-            id="src"
-            list="tz-zones"
-            value={sourceZone}
-            onChange={(e) => setSourceZone(e.target.value)}
-            className="input"
-            placeholder="e.g. Europe/Chisinau"
-            autoComplete="off"
-          />
+          <span className="label">Source time zone (search by country, city or zone)</span>
+          <ZonePicker value={sourceZone} onChange={setSourceZone} options={options} ariaLabel="Source time zone" />
           {instant && (
             <p className="mt-1 text-xs text-slate-500">
-              {formatOffset(getZoneOffsetMinutes(instant, sourceZone))} · {getZoneShortName(instant, sourceZone)}
+              {src.offset}
+              {src.short ? ` · ${src.short}` : ''}
             </p>
           )}
         </div>
@@ -99,27 +86,26 @@ export default function TimeZoneConverter() {
       )}
 
       <div>
-        <p className="label">Converted times ({allZones.length} zones available)</p>
+        <p className="label">Converted times ({options.length} zones available)</p>
         <div className="space-y-2">
           {instant &&
             targets.map((zone, idx) => {
               const d = describe(zone);
               return (
                 <div key={`${zone}-${idx}`} className="flex items-center gap-2 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
-                  <input
-                    list="tz-zones"
+                  <ZonePicker
                     value={zone}
-                    onChange={(e) => {
+                    onChange={(z) => {
                       const next = [...targets];
-                      next[idx] = e.target.value;
+                      next[idx] = z;
                       setTargets(next);
                     }}
-                    className="input w-48 py-1.5 text-sm"
-                    aria-label={`Target zone ${idx + 1}`}
-                    autoComplete="off"
+                    options={options}
+                    ariaLabel={`Target zone ${idx + 1}`}
+                    className="w-56"
                   />
                   <div className="flex-1 text-right">
-                    <div className="font-mono text-sm font-semibold text-slate-900 dark:text-white">{d.time || '—'}</div>
+                    <div className="font-mono text-sm font-semibold text-slate-900 dark:text-white">{d.time}</div>
                     <div className="text-xs text-slate-500">
                       {d.offset}
                       {d.short ? ` · ${d.short}` : ''}
@@ -147,8 +133,8 @@ export default function TimeZoneConverter() {
       </div>
 
       <p className="text-xs text-slate-400">
-        Type any city or region to search every IANA time zone in the world. Each row shows the local
-        time, the GMT/UTC offset (e.g. GMT+02:00) and the zone’s short name (e.g. EET, IST, EST).
+        Search any country (e.g. Tajikistan), city or zone. Each row shows the local time, the GMT/UTC
+        offset (e.g. GMT+05:00) and the zone short name (e.g. IST, EST, CET).
       </p>
     </ToolShell>
   );
