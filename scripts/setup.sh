@@ -79,16 +79,25 @@ sed -i "s/tinytools\.example/${DOMAIN}/g" nginx/conf.d/tinytools.conf
 
 # 2. Write the build/runtime environment file.
 echo "==> Writing .env"
+# Support links default to the project's Ko-fi page; override with env vars.
+KOFI_URL="${KOFI_URL:-https://ko-fi.com/zmeigorynyc}"
+DONATE_URL="${DONATE_URL:-$KOFI_URL}"
+COFFEE_URL="${COFFEE_URL:-$KOFI_URL}"
+SUPPORT_URL="${SUPPORT_URL:-$KOFI_URL}"
+# A random salt for hashing stored IPs (used for privacy; real IPs are also kept).
+IP_SALT="${CMS_IP_SALT:-$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n' 2>/dev/null || echo botera-$(date +%s))}"
+
 cat > .env <<ENV
 NEXT_PUBLIC_SITE_URL=https://${DOMAIN}
 NEXT_PUBLIC_ANALYTICS_DOMAIN=
 NEXT_PUBLIC_ANALYTICS_SRC=
-NEXT_PUBLIC_DONATE_URL=
-NEXT_PUBLIC_COFFEE_URL=
-NEXT_PUBLIC_SUPPORT_URL=
+NEXT_PUBLIC_DONATE_URL=${DONATE_URL}
+NEXT_PUBLIC_COFFEE_URL=${COFFEE_URL}
+NEXT_PUBLIC_SUPPORT_URL=${SUPPORT_URL}
 NEXT_PUBLIC_ENABLE_ADS=false
 CMS_DB_PATH=/app/data/cms.db
 CMS_UPLOAD_DIR=/app/data/uploads
+CMS_IP_SALT=${IP_SALT}
 ENV
 
 # 3. Build the application image.

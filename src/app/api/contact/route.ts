@@ -36,6 +36,7 @@ export async function POST(request: Request) {
     subject: subject || (kind === 'question' ? 'Question' : 'Message'),
     body: content,
     ipHash: hashIp(clientIp()),
+    ipAddress: clientIp(),
   });
 
   return NextResponse.json({ ok: true });

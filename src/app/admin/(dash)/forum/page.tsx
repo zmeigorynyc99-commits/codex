@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { listThreads, listRepliesForModeration } from '@/lib/cms/forum';
 import { formatDate } from '@/lib/cms/format';
 import { ModerationActions } from '@/components/admin/ModerationActions';
+import { BlockIpButton } from '@/components/admin/BlockIpButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Forum moderation' };
@@ -33,7 +34,7 @@ export default function ForumModerationPage() {
                   <span className="text-xs text-slate-400">{t.authorName} · {formatDate(t.createdAt)}</span>
                 </div>
                 <div className="mt-2 line-clamp-2 whitespace-pre-wrap break-words text-sm text-slate-600 dark:text-slate-400">{t.body}</div>
-                <div className="mt-3">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                   <ModerationActions
                     entity="thread"
                     id={t.id}
@@ -45,6 +46,7 @@ export default function ForumModerationPage() {
                       { action: 'delete', label: 'Delete', danger: true, confirm: 'Delete this thread and all replies?' },
                     ]}
                   />
+                  <BlockIpButton ip={t.ipAddress} reason={`forum thread: ${t.title}`} />
                 </div>
               </li>
             ))}
@@ -70,7 +72,7 @@ export default function ForumModerationPage() {
                   <span className="text-xs text-slate-400">{formatDate(r.createdAt)}</span>
                 </div>
                 <div className="mt-2 whitespace-pre-wrap break-words text-sm text-slate-600 dark:text-slate-400">{r.body}</div>
-                <div className="mt-3">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                   <ModerationActions
                     entity="reply"
                     id={r.id}
@@ -80,6 +82,7 @@ export default function ForumModerationPage() {
                       { action: 'delete', label: 'Delete', danger: true, confirm: 'Delete this reply?' },
                     ]}
                   />
+                  <BlockIpButton ip={r.ipAddress} reason={`forum reply on ${r.threadTitle}`} />
                 </div>
               </li>
             ))}

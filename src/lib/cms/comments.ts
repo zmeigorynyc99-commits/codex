@@ -11,23 +11,25 @@ export interface Comment {
   authorName: string;
   body: string;
   status: ModerationStatus;
+  ipAddress: string | null;
   createdAt: string;
 }
 
 interface CommentRow {
-  id: number; tutorial_id: number; author_name: string; body: string; status: string; created_at: string;
+  id: number; tutorial_id: number; author_name: string; body: string; status: string;
+  ip_address: string | null; created_at: string;
 }
 
 function mapComment(r: CommentRow): Comment {
   return {
     id: r.id, tutorialId: r.tutorial_id, authorName: r.author_name, body: r.body,
-    status: r.status as ModerationStatus, createdAt: toIso(r.created_at),
+    status: r.status as ModerationStatus, ipAddress: r.ip_address ?? null, createdAt: toIso(r.created_at),
   };
 }
 
 export function createComment(
   tutorialId: number,
-  input: { authorName: string; body: string; status: ModerationStatus; ipHash?: string },
+  input: { authorName: string; body: string; status: ModerationStatus; ipHash?: string; ipAddress?: string },
   db: DB = getDb(),
 ): Comment | null {
   const tutorial = db.prepare("SELECT id, status FROM tutorials WHERE id = ?").get(tutorialId) as
@@ -37,10 +39,10 @@ export function createComment(
   if (!tutorial || tutorial.status !== 'published') return null;
   const result = db
     .prepare(
-      `INSERT INTO comments (tutorial_id, author_name, body, status, ip_hash)
-       VALUES (@tid, @author, @body, @status, @ip)`,
+      `INSERT INTO comments (tutorial_id, author_name, body, status, ip_hash, ip_address)
+       VALUES (@tid, @author, @body, @status, @ip, @ipaddr)`,
     )
-    .run({ tid: tutorialId, author: input.authorName, body: input.body, status: input.status, ip: input.ipHash ?? null });
+    .run({ tid: tutorialId, author: input.authorName, body: input.body, status: input.status, ip: input.ipHash ?? null, ipaddr: input.ipAddress ?? null });
   const r = db.prepare('SELECT * FROM comments WHERE id = ?').get(Number(result.lastInsertRowid)) as CommentRow;
   return mapComment(r);
 }

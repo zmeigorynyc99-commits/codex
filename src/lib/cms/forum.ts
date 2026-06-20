@@ -16,6 +16,7 @@ export interface ForumThread {
   pinned: boolean;
   locked: boolean;
   replyCount: number;
+  ipAddress: string | null;
   createdAt: string;
   lastActivityAt: string;
 }
@@ -26,30 +27,32 @@ export interface ForumReply {
   authorName: string;
   body: string;
   status: ModerationStatus;
+  ipAddress: string | null;
   createdAt: string;
 }
 
 interface ThreadRow {
   id: number; title: string; slug: string; author_name: string; body: string;
   status: string; pinned: number; locked: number; reply_count: number;
-  created_at: string; last_activity_at: string;
+  ip_address: string | null; created_at: string; last_activity_at: string;
 }
 interface ReplyRow {
   id: number; thread_id: number; author_name: string; body: string;
-  status: string; created_at: string;
+  status: string; ip_address: string | null; created_at: string;
 }
 
 function mapThread(r: ThreadRow): ForumThread {
   return {
     id: r.id, title: r.title, slug: r.slug, authorName: r.author_name, body: r.body,
     status: r.status as ModerationStatus, pinned: r.pinned === 1, locked: r.locked === 1,
-    replyCount: r.reply_count, createdAt: toIso(r.created_at), lastActivityAt: toIso(r.last_activity_at),
+    replyCount: r.reply_count, ipAddress: r.ip_address ?? null,
+    createdAt: toIso(r.created_at), lastActivityAt: toIso(r.last_activity_at),
   };
 }
 function mapReply(r: ReplyRow): ForumReply {
   return {
     id: r.id, threadId: r.thread_id, authorName: r.author_name, body: r.body,
-    status: r.status as ModerationStatus, createdAt: toIso(r.created_at),
+    status: r.status as ModerationStatus, ipAddress: r.ip_address ?? null, createdAt: toIso(r.created_at),
   };
 }
 
@@ -59,6 +62,7 @@ export interface NewThread {
   body: string;
   status: ModerationStatus;
   ipHash?: string;
+  ipAddress?: string;
 }
 
 export function createThread(input: NewThread, db: DB = getDb()): ForumThread {
@@ -67,19 +71,19 @@ export function createThread(input: NewThread, db: DB = getDb()): ForumThread {
   );
   const result = db
     .prepare(
-      `INSERT INTO forum_threads (title, slug, author_name, body, status, ip_hash)
-       VALUES (@title, @slug, @author, @body, @status, @ip)`,
+      `INSERT INTO forum_threads (title, slug, author_name, body, status, ip_hash, ip_address)
+       VALUES (@title, @slug, @author, @body, @status, @ip, @ipaddr)`,
     )
     .run({
       title: input.title, slug, author: input.authorName, body: input.body,
-      status: input.status, ip: input.ipHash ?? null,
+      status: input.status, ip: input.ipHash ?? null, ipaddr: input.ipAddress ?? null,
     });
   return getThreadById(Number(result.lastInsertRowid), db)!;
 }
 
 export function createReply(
   threadId: number,
-  input: { authorName: string; body: string; status: ModerationStatus; ipHash?: string },
+  input: { authorName: string; body: string; status: ModerationStatus; ipHash?: string; ipAddress?: string },
   db: DB = getDb(),
 ): ForumReply | null {
   const thread = db.prepare('SELECT id, locked FROM forum_threads WHERE id = ?').get(threadId) as
@@ -89,10 +93,10 @@ export function createReply(
 
   const result = db
     .prepare(
-      `INSERT INTO forum_replies (thread_id, author_name, body, status, ip_hash)
-       VALUES (@thread, @author, @body, @status, @ip)`,
+      `INSERT INTO forum_replies (thread_id, author_name, body, status, ip_hash, ip_address)
+       VALUES (@thread, @author, @body, @status, @ip, @ipaddr)`,
     )
-    .run({ thread: threadId, author: input.authorName, body: input.body, status: input.status, ip: input.ipHash ?? null });
+    .run({ thread: threadId, author: input.authorName, body: input.body, status: input.status, ip: input.ipHash ?? null, ipaddr: input.ipAddress ?? null });
 
   // Only approved replies bump activity and the public reply count.
   if (input.status === 'approved') {

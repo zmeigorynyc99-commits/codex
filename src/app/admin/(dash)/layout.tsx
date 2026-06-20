@@ -47,6 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/inbox" className={link}>
             Inbox<Count n={newMessages} />
           </Link>
+          <Link href="/admin/blocked" className={link}>Blocked IPs</Link>
           <Link href="/" className={link}>View site</Link>
         </nav>
         <div className="flex items-center gap-3 text-sm text-slate-500">

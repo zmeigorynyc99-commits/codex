@@ -29,7 +29,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   if (content.length < 2) return NextResponse.json({ error: 'Please write a longer comment.' }, { status: 400 });
 
   const status = classifyContent(content);
-  const comment = createComment(tutorialId, { authorName: author, body: content, status, ipHash: hashIp(clientIp()) });
+  const comment = createComment(tutorialId, { authorName: author, body: content, status, ipHash: hashIp(clientIp()), ipAddress: clientIp() });
   if (!comment) return NextResponse.json({ error: 'Comments are not available for this tutorial.' }, { status: 400 });
 
   return NextResponse.json({ ok: true, pending: status !== 'approved' }, { status: 201 });

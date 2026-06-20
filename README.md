@@ -125,10 +125,17 @@ SQLite database, with strong anti-abuse protections:
 - **Comments** under every published tutorial (`/linux-tutorials/[slug]`).
 - **Contact & "Ask a question"** at `/contact` — an on-site form (no email
   anywhere on the site). Submissions land in the admin **Inbox**.
-- **Support CTAs** ("☕ Buy me a coffee" / "♥ Support with $1") after each
-  tutorial and forum thread, plus a `/support` page. Configure the links with
-  `NEXT_PUBLIC_COFFEE_URL` / `NEXT_PUBLIC_DONATE_URL` / `NEXT_PUBLIC_SUPPORT_URL`
-  (otherwise the buttons point to the on-site `/support` page).
+- **Support CTAs** after each tutorial and forum thread, plus a `/support` page
+  and a footer donate button. Each button maps to its own variable so you can
+  point them at one Ko-fi page or three different services:
+  - **"☕ Buy me a coffee"** → `NEXT_PUBLIC_COFFEE_URL`
+  - **"♥ Support with $1"** → `NEXT_PUBLIC_SUPPORT_URL`
+  - **Footer donate button** → `NEXT_PUBLIC_DONATE_URL`
+
+  When a variable is empty its button falls back to the on-site `/support` page.
+  External links open in a new tab with `rel="noopener noreferrer nofollow"`.
+  `scripts/setup.sh` defaults all three to `https://ko-fi.com/zmeigorynyc`
+  (override with `KOFI_URL=` / `COFFEE_URL=` / `SUPPORT_URL=` / `DONATE_URL=`).
 
 ### How the community content is kept safe
 
@@ -143,11 +150,17 @@ This is the highest-risk surface, so defence is layered:
 - **Spam/link heuristic** holds suspicious posts as `pending` (invisible to the
   public) until an admin approves them.
 - **Length limits** and control-character stripping on every field.
+- **IP capture & blocking.** Every post/comment/message records the real client
+  IP (alongside a salted hash). In the admin views each item shows its IP with a
+  one-click **Block** button, and `/admin/blocked` lists/adds/removes blocks. A
+  blocked IP is rejected from posting **and** shown an "Access restricted" page
+  on every non-admin page (the admin area stays reachable so you can't lock
+  yourself out). For a hard network-level ban, also add an Nginx `deny <ip>;`.
 - **Full moderation** in the admin area: approve / hide / delete comments, forum
   threads and replies; pin / lock threads; read / archive / delete messages.
   Pending counts are badged in the admin nav.
 
-Admin moderation pages: `/admin/comments`, `/admin/forum`, `/admin/inbox`.
+Admin pages: `/admin/comments`, `/admin/forum`, `/admin/inbox`, `/admin/blocked`.
 
 ---
 

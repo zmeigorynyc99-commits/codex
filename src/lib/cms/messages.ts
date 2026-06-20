@@ -15,33 +15,35 @@ export interface Message {
   subject: string;
   body: string;
   status: MessageStatus;
+  ipAddress: string | null;
   createdAt: string;
 }
 
 interface MessageRow {
   id: number; kind: string; name: string; contact: string | null;
-  subject: string; body: string; status: string; created_at: string;
+  subject: string; body: string; status: string; ip_address: string | null; created_at: string;
 }
 
 function mapMessage(r: MessageRow): Message {
   return {
     id: r.id, kind: r.kind as MessageKind, name: r.name, contact: r.contact,
-    subject: r.subject, body: r.body, status: r.status as MessageStatus, createdAt: toIso(r.created_at),
+    subject: r.subject, body: r.body, status: r.status as MessageStatus,
+    ipAddress: r.ip_address ?? null, createdAt: toIso(r.created_at),
   };
 }
 
 export function createMessage(
-  input: { kind: MessageKind; name: string; contact: string | null; subject: string; body: string; ipHash?: string },
+  input: { kind: MessageKind; name: string; contact: string | null; subject: string; body: string; ipHash?: string; ipAddress?: string },
   db: DB = getDb(),
 ): Message {
   const result = db
     .prepare(
-      `INSERT INTO messages (kind, name, contact, subject, body, ip_hash)
-       VALUES (@kind, @name, @contact, @subject, @body, @ip)`,
+      `INSERT INTO messages (kind, name, contact, subject, body, ip_hash, ip_address)
+       VALUES (@kind, @name, @contact, @subject, @body, @ip, @ipaddr)`,
     )
     .run({
       kind: input.kind, name: input.name, contact: input.contact, subject: input.subject,
-      body: input.body, ip: input.ipHash ?? null,
+      body: input.body, ip: input.ipHash ?? null, ipaddr: input.ipAddress ?? null,
     });
   const r = db.prepare('SELECT * FROM messages WHERE id = ?').get(Number(result.lastInsertRowid)) as MessageRow;
   return mapMessage(r);

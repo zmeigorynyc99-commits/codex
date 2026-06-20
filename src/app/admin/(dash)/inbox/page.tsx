@@ -1,6 +1,7 @@
 import { listMessages } from '@/lib/cms/messages';
 import { formatDate } from '@/lib/cms/format';
 import { ModerationActions } from '@/components/admin/ModerationActions';
+import { BlockIpButton } from '@/components/admin/BlockIpButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Inbox' };
@@ -43,7 +44,7 @@ export default function InboxPage() {
                 {m.contact ? ` · reach back: ${m.contact}` : ''}
               </p>
               <div className="mt-2 whitespace-pre-wrap break-words text-sm text-slate-700 dark:text-slate-300">{m.body}</div>
-              <div className="mt-3">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                 <ModerationActions
                   entity="message"
                   id={m.id}
@@ -54,6 +55,7 @@ export default function InboxPage() {
                     { action: 'delete', label: 'Delete', danger: true, confirm: 'Delete this message permanently?' },
                   ]}
                 />
+                <BlockIpButton ip={m.ipAddress} reason={`message: ${m.subject}`} />
               </div>
             </li>
           ))}

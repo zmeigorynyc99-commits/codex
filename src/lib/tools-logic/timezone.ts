@@ -1,5 +1,39 @@
 /** Time-zone helpers built on the Intl API (no external data needed). */
 
+/**
+ * Every IANA time zone supported by the runtime (hundreds, covering all
+ * countries), plus UTC/GMT. Falls back to the curated list on older engines
+ * that lack Intl.supportedValuesOf.
+ */
+export function getAllTimeZones(): string[] {
+  try {
+    const intl = Intl as typeof Intl & { supportedValuesOf?: (key: string) => string[] };
+    if (typeof intl.supportedValuesOf === 'function') {
+      const zones = intl.supportedValuesOf('timeZone');
+      // Union with common aliases (e.g. Asia/Kolkata) so familiar names resolve
+      // even when the runtime only lists canonical IDs (Asia/Calcutta).
+      const set = new Set<string>(['UTC', 'GMT', ...zones, ...COMMON_TIMEZONES]);
+      return Array.from(set).sort();
+    }
+  } catch {
+    /* fall through to the curated list */
+  }
+  return [...COMMON_TIMEZONES];
+}
+
+/**
+ * Returns a short zone label such as "GMT+5:30", "GMT", "EST" or "IST" for the
+ * given instant, using the runtime's localized time-zone abbreviations.
+ */
+export function getZoneShortName(date: Date, timeZone: string, locale = 'en-US'): string {
+  try {
+    const parts = new Intl.DateTimeFormat(locale, { timeZone, timeZoneName: 'short' }).formatToParts(date);
+    return parts.find((p) => p.type === 'timeZoneName')?.value ?? '';
+  } catch {
+    return '';
+  }
+}
+
 /** A curated list of common IANA time zones for the converter UI. */
 export const COMMON_TIMEZONES: string[] = [
   'UTC',
