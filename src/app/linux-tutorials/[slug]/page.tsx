@@ -13,6 +13,9 @@ import { DifficultyBadge, DistroBadge, NeutralBadge } from '@/components/cms/Bad
 import { TutorialCard } from '@/components/cms/TutorialCard';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { JsonLd } from '@/components/JsonLd';
+import { listComments } from '@/lib/cms/comments';
+import { CommentSection } from '@/components/community/CommentSection';
+import { SupportCta } from '@/components/community/SupportCta';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +33,7 @@ export default function TutorialPage({ params }: { params: { slug: string } }) {
   const toc = extractToc(tutorial.content);
   const { prev, next } = getAdjacent(tutorial);
   const related = getRelated(tutorial, 3);
+  const comments = listComments(tutorial.id, { publicOnly: true });
   const url = absoluteUrl(`/linux-tutorials/${tutorial.slug}`);
 
   return (
@@ -125,6 +129,12 @@ export default function TutorialPage({ params }: { params: { slug: string } }) {
               )}
             </nav>
           )}
+
+          <div className="mt-10">
+            <SupportCta />
+          </div>
+
+          <CommentSection tutorialId={tutorial.id} comments={comments} />
         </article>
 
         <aside className="space-y-6">

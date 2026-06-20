@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { siteConfig, absoluteUrl } from '@/lib/site';
-import { Prose } from '@/components/Prose';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ContactForm } from '@/components/community/ContactForm';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: `Get in touch with the ${siteConfig.name} team to report a bug, suggest a tool or ask a question.`,
+  title: 'Contact & Ask a Question',
+  description: `Send a message or ask a question to the ${siteConfig.name} team — entirely on-site, no email required.`,
   alternates: { canonical: absoluteUrl('/contact') },
 };
 
@@ -13,41 +15,21 @@ export default function ContactPage() {
   return (
     <div className="container-content py-10">
       <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Contact' }]} />
-      <h1 className="mb-6 text-center text-3xl font-bold">Contact us</h1>
-      <Prose>
-        <p>
-          We’d love to hear from you. Whether you’ve found a bug, want to suggest a new tool, or have
-          a question about how something works, here is how to reach us.
+      <div className="mx-auto max-w-2xl">
+        <h1 className="text-center text-3xl font-bold">Contact &amp; ask a question</h1>
+        <p className="mx-auto mt-3 max-w-xl text-center text-slate-600 dark:text-slate-400">
+          Found a bug, have an idea, or want to ask something about a tutorial? Send it here. There is
+          no email and no account — your message goes straight to the site owner’s admin inbox.
         </p>
-
-        <h2>Email</h2>
-        <p>
-          The quickest way to get in touch is by email. Replace the address below with your project’s
-          real contact address before launch:
+        <div className="mt-8">
+          <ContactForm />
+        </div>
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Prefer a public answer? Ask in the{' '}
+          <a href="/forum" className="text-brand-700 hover:underline dark:text-brand-300">community forum</a>{' '}
+          instead.
         </p>
-        <p>
-          <a href="mailto:hello@tinytools.example">hello@tinytools.example</a>
-        </p>
-
-        <h2>Reporting a problem</h2>
-        <p>When reporting an issue, it helps to include:</p>
-        <ul>
-          <li>The name of the tool you were using.</li>
-          <li>What you expected to happen and what actually happened.</li>
-          <li>Your browser and operating system, if you know them.</li>
-        </ul>
-        <p>
-          Please do not include sensitive personal information in your message — remember that the
-          tools themselves never send us your data, and we’d like to keep your contact messages
-          minimal too.
-        </p>
-
-        <h2>Suggesting a tool</h2>
-        <p>
-          Have an idea for a utility that would fit {siteConfig.name}? Tell us what it should do and
-          who it would help. Small, focused, browser-based tools are the best fit.
-        </p>
-      </Prose>
+      </div>
     </div>
   );
 }

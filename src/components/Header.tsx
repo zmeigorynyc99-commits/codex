@@ -17,17 +17,29 @@ export function Header() {
           <span className="text-lg">{siteConfig.name}</span>
         </Link>
 
-        <nav className="flex items-center gap-3" aria-label="Primary">
+        <nav className="flex items-center gap-1 sm:gap-2" aria-label="Primary">
           <HeaderSearch />
           <Link
-            href="/tools"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+            href="/linux-tutorials"
+            className="rounded-lg px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
           >
-            All tools
+            Tutorials
+          </Link>
+          <Link
+            href="/forum"
+            className="rounded-lg px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            Forum
+          </Link>
+          <Link
+            href="/tools"
+            className="hidden rounded-lg px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 sm:inline-block dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            Tools
           </Link>
           <Link
             href="/about"
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 sm:inline-block dark:text-slate-200 dark:hover:bg-slate-800"
+            className="hidden rounded-lg px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 lg:inline-block dark:text-slate-200 dark:hover:bg-slate-800"
           >
             About
           </Link>
