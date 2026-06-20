@@ -38,6 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Tutorials
           </Link>
           <Link href="/admin/tutorials/new" className={link}>New</Link>
+          <Link href="/admin/stats" className={link}>Stats</Link>
           <Link href="/admin/comments" className={link}>
             Comments<Count n={pendingComments} />
           </Link>

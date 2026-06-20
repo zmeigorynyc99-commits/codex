@@ -60,44 +60,53 @@ export const COMMON_TIMEZONES: string[] = [
 
 /**
  * Formats an instant (Date) as it appears in a given IANA time zone.
- * Throws for an invalid time zone string, so callers should guard input.
+ * Returns an empty string for an invalid time zone instead of throwing.
  */
 export function formatInTimeZone(date: Date, timeZone: string, locale = 'en-US'): string {
-  return new Intl.DateTimeFormat(locale, {
-    timeZone,
-    dateStyle: 'medium',
-    timeStyle: 'long',
-    hour12: false,
-  }).format(date);
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      timeZone,
+      dateStyle: 'medium',
+      timeStyle: 'long',
+      hour12: false,
+    }).format(date);
+  } catch {
+    return '';
+  }
 }
 
-/** Returns the UTC offset (in minutes) for a zone at a given instant. */
+/** Returns the UTC offset (in minutes) for a zone, or NaN for an invalid zone. */
 export function getZoneOffsetMinutes(date: Date, timeZone: string): number {
-  const dtf = new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    hourCycle: 'h23',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-  const parts = dtf.formatToParts(date);
-  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
-  const asUTC = Date.UTC(
-    get('year'),
-    get('month') - 1,
-    get('day'),
-    get('hour'),
-    get('minute'),
-    get('second'),
-  );
-  return Math.round((asUTC - date.getTime()) / 60000);
+  try {
+    const dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    const parts = dtf.formatToParts(date);
+    const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+    const asUTC = Date.UTC(
+      get('year'),
+      get('month') - 1,
+      get('day'),
+      get('hour'),
+      get('minute'),
+      get('second'),
+    );
+    return Math.round((asUTC - date.getTime()) / 60000);
+  } catch {
+    return NaN;
+  }
 }
 
-/** Formats an offset in minutes as "UTC+05:30". */
+/** Formats an offset in minutes as "UTC+05:30". Returns '' for NaN. */
 export function formatOffset(minutes: number): string {
+  if (!Number.isFinite(minutes)) return '';
   const sign = minutes >= 0 ? '+' : '-';
   const abs = Math.abs(minutes);
   const h = String(Math.floor(abs / 60)).padStart(2, '0');

@@ -159,4 +159,30 @@ export const MIGRATIONS: Migration[] = [
       );
     `,
   },
+  {
+    id: 4,
+    name: 'analytics_and_likes',
+    sql: `
+      -- Lightweight request log powering the admin statistics dashboard.
+      CREATE TABLE IF NOT EXISTS request_log (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ip TEXT,
+        path TEXT NOT NULL,
+        tutorial_slug TEXT,
+        user_agent TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_reqlog_ip ON request_log(ip);
+      CREATE INDEX IF NOT EXISTS idx_reqlog_slug ON request_log(tutorial_slug);
+      CREATE INDEX IF NOT EXISTS idx_reqlog_created ON request_log(created_at);
+
+      -- "Helpful" likes on tutorials, one per IP per tutorial.
+      CREATE TABLE IF NOT EXISTS tutorial_likes (
+        tutorial_id INTEGER NOT NULL REFERENCES tutorials(id) ON DELETE CASCADE,
+        ip TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+        PRIMARY KEY (tutorial_id, ip)
+      );
+    `,
+  },
 ];
