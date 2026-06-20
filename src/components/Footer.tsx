@@ -37,7 +37,10 @@ export function Footer() {
         <nav aria-label="Site">
           <p className="text-sm font-semibold text-slate-900 dark:text-white">Site</p>
           <ul className="mt-3 space-y-2 text-sm">
+            <li><Link href="/linux-tutorials" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">Tutorials</Link></li>
+            <li><Link href="/forum" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">Forum</Link></li>
             <li><Link href="/tools" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">All tools</Link></li>
+            <li><Link href="/support" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">Support</Link></li>
             <li><Link href="/about" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">About</Link></li>
             <li><Link href="/contact" className="text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300">Contact</Link></li>
           </ul>

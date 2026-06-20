@@ -82,4 +82,63 @@ export const MIGRATIONS: Migration[] = [
       );
     `,
   },
+  {
+    id: 2,
+    name: 'community_forum_comments_messages',
+    sql: `
+      -- Public discussion forum.
+      CREATE TABLE IF NOT EXISTS forum_threads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT NOT NULL UNIQUE,
+        author_name TEXT NOT NULL DEFAULT 'Anonymous',
+        body TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'approved',   -- approved | pending | hidden
+        pinned INTEGER NOT NULL DEFAULT 0,
+        locked INTEGER NOT NULL DEFAULT 0,
+        reply_count INTEGER NOT NULL DEFAULT 0,
+        ip_hash TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+        last_activity_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_threads_status ON forum_threads(status, pinned, last_activity_at);
+
+      CREATE TABLE IF NOT EXISTS forum_replies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        thread_id INTEGER NOT NULL REFERENCES forum_threads(id) ON DELETE CASCADE,
+        author_name TEXT NOT NULL DEFAULT 'Anonymous',
+        body TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'approved',
+        ip_hash TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_replies_thread ON forum_replies(thread_id, created_at);
+
+      -- Comments under tutorials.
+      CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tutorial_id INTEGER NOT NULL REFERENCES tutorials(id) ON DELETE CASCADE,
+        author_name TEXT NOT NULL DEFAULT 'Anonymous',
+        body TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'approved',
+        ip_hash TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_comments_tutorial ON comments(tutorial_id, status, created_at);
+
+      -- On-site contact messages / questions (no email needed).
+      CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        kind TEXT NOT NULL DEFAULT 'contact',      -- contact | question
+        name TEXT NOT NULL DEFAULT 'Anonymous',
+        contact TEXT,                              -- optional, how to reach back (free text)
+        subject TEXT NOT NULL DEFAULT '',
+        body TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'new',        -- new | read | archived
+        ip_hash TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_messages_status ON messages(status, created_at);
+    `,
+  },
 ];

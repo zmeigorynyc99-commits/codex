@@ -94,19 +94,60 @@ search, categories and structured data update automatically.
 
 ## One-command production setup
 
-On a fresh Ubuntu VPS with Docker installed, from the repository root:
+On a fresh **Debian 13.x** or **Ubuntu** VPS — Docker is installed automatically
+if it is missing — from the repository root:
 
 ```bash
-EMAIL=you@botera.md \
-ADMIN_EMAIL=admin@botera.md ADMIN_PASSWORD='choose-a-strong-password' \
-./scripts/setup.sh
+sudo EMAIL=you@botera.md \
+  ADMIN_EMAIL=admin@botera.md ADMIN_PASSWORD='choose-a-strong-password' \
+  ./scripts/setup.sh
 ```
 
-`scripts/setup.sh` configures Nginx for the domain (`botera.md` by default,
-override with `DOMAIN=`), writes `.env`, builds the image, issues a Let's
-Encrypt certificate, starts the stack, and creates the admin account. Before DNS
-is pointed at the server you can run it with `SKIP_CERTS=1` to use a self-signed
-certificate. Full step-by-step instructions remain in **DEPLOYMENT.md**.
+`scripts/setup.sh` will, in order: **install Docker Engine + Compose** if not
+present (Debian/Ubuntu, via Docker's official script), configure Nginx for the
+domain (`botera.md` by default, override with `DOMAIN=`), write `.env`, build the
+image, issue a Let's Encrypt certificate, start the stack, and create the admin
+account. Use `sudo` so Docker can be installed; if Docker is already set up you
+can run it without sudo. Before DNS is pointed at the server, add `SKIP_CERTS=1`
+to use a self-signed certificate. Full step-by-step instructions remain in
+**DEPLOYMENT.md**.
+
+---
+
+## Community: forum, comments & contact
+
+botera includes public, account-free community features backed by the same
+SQLite database, with strong anti-abuse protections:
+
+- **Forum** at `/forum` and `/forum/[slug]` — anyone can start a discussion and
+  reply. New threads/replies appear immediately unless the spam filter holds
+  them for review.
+- **Comments** under every published tutorial (`/linux-tutorials/[slug]`).
+- **Contact & "Ask a question"** at `/contact` — an on-site form (no email
+  anywhere on the site). Submissions land in the admin **Inbox**.
+- **Support CTAs** ("☕ Buy me a coffee" / "♥ Support with $1") after each
+  tutorial and forum thread, plus a `/support` page. Configure the links with
+  `NEXT_PUBLIC_COFFEE_URL` / `NEXT_PUBLIC_DONATE_URL` / `NEXT_PUBLIC_SUPPORT_URL`
+  (otherwise the buttons point to the on-site `/support` page).
+
+### How the community content is kept safe
+
+This is the highest-risk surface, so defence is layered:
+
+- **No HTML is ever rendered from user input.** Submissions are stored as plain
+  text and rendered through React's normal escaping (never
+  `dangerouslySetInnerHTML`, never Markdown), so **stored XSS is impossible** —
+  the worst a "payload" can do is display as literal text.
+- **Same-origin enforcement** on every public POST (Origin/Referer must match).
+- **Honeypot field** + **per-IP rate limiting** (no third-party CAPTCHA).
+- **Spam/link heuristic** holds suspicious posts as `pending` (invisible to the
+  public) until an admin approves them.
+- **Length limits** and control-character stripping on every field.
+- **Full moderation** in the admin area: approve / hide / delete comments, forum
+  threads and replies; pin / lock threads; read / archive / delete messages.
+  Pending counts are badged in the admin nav.
+
+Admin moderation pages: `/admin/comments`, `/admin/forum`, `/admin/inbox`.
 
 ---
 

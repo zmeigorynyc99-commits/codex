@@ -19,6 +19,9 @@ export const siteConfig = {
     src: process.env.NEXT_PUBLIC_ANALYTICS_SRC || '',
   },
   donateUrl: process.env.NEXT_PUBLIC_DONATE_URL || '',
+  // "Buy me a coffee" / one-dollar support links (optional, external).
+  coffeeUrl: process.env.NEXT_PUBLIC_COFFEE_URL || '',
+  supportUrl: process.env.NEXT_PUBLIC_SUPPORT_URL || '',
   enableAds: process.env.NEXT_PUBLIC_ENABLE_ADS === 'true',
 } as const;
 
