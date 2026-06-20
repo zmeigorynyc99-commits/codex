@@ -23,6 +23,12 @@ export const siteConfig = {
   coffeeUrl: process.env.NEXT_PUBLIC_COFFEE_URL || '',
   supportUrl: process.env.NEXT_PUBLIC_SUPPORT_URL || '',
   enableAds: process.env.NEXT_PUBLIC_ENABLE_ADS === 'true',
+  // Search-engine ownership verification (optional). Paste the token only.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+    bing: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || '',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION || '',
+  },
 } as const;
 
 export function absoluteUrl(path = ''): string {

@@ -349,6 +349,49 @@ with the next `id`; it runs on the next boot and is recorded in
 
 ---
 
+## Getting found on Google (SEO)
+
+You do **not** need a special "Google bot" — Googlebot crawls any public site
+automatically. The site already ships the technical SEO that makes it
+indexable: a dynamic `sitemap.xml`, `robots.txt`, canonical URLs, Open Graph /
+Twitter cards, and JSON-LD structured data (WebApplication + FAQ for tools,
+TechArticle + breadcrumbs for tutorials, WebSite search action). Your job is to
+tell the search engines the site exists and to earn links.
+
+**One-time setup (do this first):**
+1. **Google Search Console** → add a property for `botera.md`. Easiest is the
+   *Domain* property verified by a **DNS TXT record** (no rebuild needed). Or use
+   the *URL-prefix* property with the HTML-tag method: set
+   `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` in `.env` and
+   `docker compose up -d --build`. Then **Sitemaps → submit** `https://botera.md/sitemap.xml`.
+2. **Bing Webmaster Tools** → add the site (you can import from Google), submit
+   the same sitemap. Set `NEXT_PUBLIC_BING_SITE_VERIFICATION` if using the meta tag.
+3. **IndexNow** is already wired: `setup.sh` generates `INDEXNOW_KEY`, served at
+   `https://botera.md/indexnow`. When you publish or update a tutorial the site
+   automatically pings Bing/Yandex for near-instant indexing.
+4. Use Search Console's **URL Inspection → Request indexing** for your most
+   important pages (home, a few top tools) to get crawled within days.
+
+**Free promotion that actually moves the needle:**
+- **Publish tutorials regularly.** Long, genuinely useful Linux guides are what
+  rank and bring steady search traffic; each one is a new indexable page that
+  also links to your tools.
+- **Target specific queries** in tool titles/descriptions (already unique per
+  tool) — e.g. "percentage calculator", "base64 decode". Long-tail terms are
+  winnable for a new site.
+- **Get a few backlinks:** submit useful tools to relevant subreddits, Hacker
+  News, dev Discords/forums, and free directories; answer questions on
+  Stack Overflow / Reddit and link a tool when it genuinely helps.
+- **Internal linking** is already strong (related tools, related tutorials,
+  homepage feed) — keep cross-linking new tutorials to relevant tools.
+- **Share on social** (X, LinkedIn, Mastodon) — the built-in share buttons use
+  plain share URLs.
+- Be patient: a brand-new domain typically takes a few weeks to start ranking.
+
+See `.env.example` for all SEO variables.
+
+---
+
 ## 🚀 Launch checklist
 
 **Content & branding**

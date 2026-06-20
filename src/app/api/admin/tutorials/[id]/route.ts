@@ -3,6 +3,8 @@ import { guardMutation, isNextResponse, readJson, badRequest, currentApiAdmin, u
 import { validateTutorialInput } from '@/lib/cms/validation';
 import { getTutorialById, updateTutorial, deleteTutorial } from '@/lib/cms/tutorials';
 import { CMS_LIMITS } from '@/lib/cms/constants';
+import { pingIndexNow } from '@/lib/cms/indexnow';
+import { absoluteUrl } from '@/lib/site';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -39,6 +41,9 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
   const tutorial = updateTutorial(id, validation.value);
   if (!tutorial) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  if (tutorial.status === 'published') {
+    void pingIndexNow([absoluteUrl(`/linux-tutorials/${tutorial.slug}`)]);
+  }
   return NextResponse.json({ ok: true, tutorial });
 }
 

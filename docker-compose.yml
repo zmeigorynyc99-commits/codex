@@ -12,6 +12,9 @@ services:
         NEXT_PUBLIC_COFFEE_URL: ${NEXT_PUBLIC_COFFEE_URL:-}
         NEXT_PUBLIC_SUPPORT_URL: ${NEXT_PUBLIC_SUPPORT_URL:-}
         NEXT_PUBLIC_ENABLE_ADS: ${NEXT_PUBLIC_ENABLE_ADS:-false}
+        NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION:-}
+        NEXT_PUBLIC_BING_SITE_VERIFICATION: ${NEXT_PUBLIC_BING_SITE_VERIFICATION:-}
+        NEXT_PUBLIC_YANDEX_SITE_VERIFICATION: ${NEXT_PUBLIC_YANDEX_SITE_VERIFICATION:-}
     image: tiny-tools:latest
     container_name: tiny-tools-web
     restart: unless-stopped
@@ -19,6 +22,8 @@ services:
       # Runtime CMS configuration (database + uploads live on the volume).
       CMS_DB_PATH: /app/data/cms.db
       CMS_UPLOAD_DIR: /app/data/uploads
+      # IndexNow key (instant indexing pings); served at /indexnow.
+      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
     expose:
       - "3000"
     # No host port published: only nginx talks to the app over the internal network.

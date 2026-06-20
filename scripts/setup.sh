@@ -86,6 +86,8 @@ COFFEE_URL="${COFFEE_URL:-$KOFI_URL}"
 SUPPORT_URL="${SUPPORT_URL:-$KOFI_URL}"
 # A random salt for hashing stored IPs (used for privacy; real IPs are also kept).
 IP_SALT="${CMS_IP_SALT:-$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n' 2>/dev/null || echo botera-$(date +%s))}"
+# A random IndexNow key for instant Bing/Yandex indexing.
+INDEXNOW="${INDEXNOW_KEY:-$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n' 2>/dev/null || echo $(date +%s)key)}"
 
 cat > .env <<ENV
 NEXT_PUBLIC_SITE_URL=https://${DOMAIN}
@@ -95,6 +97,10 @@ NEXT_PUBLIC_DONATE_URL=${DONATE_URL}
 NEXT_PUBLIC_COFFEE_URL=${COFFEE_URL}
 NEXT_PUBLIC_SUPPORT_URL=${SUPPORT_URL}
 NEXT_PUBLIC_ENABLE_ADS=false
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=${GOOGLE_SITE_VERIFICATION:-}
+NEXT_PUBLIC_BING_SITE_VERIFICATION=${BING_SITE_VERIFICATION:-}
+NEXT_PUBLIC_YANDEX_SITE_VERIFICATION=${YANDEX_SITE_VERIFICATION:-}
+INDEXNOW_KEY=${INDEXNOW}
 CMS_DB_PATH=/app/data/cms.db
 CMS_UPLOAD_DIR=/app/data/uploads
 CMS_IP_SALT=${IP_SALT}
