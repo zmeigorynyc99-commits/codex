@@ -38,6 +38,9 @@ General Linux
 AUTHOR:
 botera
 
+COVER IMAGE (paste this URL into the "Cover image" box):
+https://botera.md/covers/linux-devops-day-2.svg
+
 SEO TITLE:
 Linux to DevOps — Day 2: nano, vim, grep & Pipes (Beginner)
 

@@ -11,8 +11,8 @@ export async function POST(request: Request) {
   if (isNextResponse(guard)) return guard;
 
   const contentLength = Number(request.headers.get('content-length') ?? '0');
-  if (contentLength > CMS_LIMITS.uploadBytes + 10_000) {
-    return NextResponse.json({ error: 'File too large (max 3 MB).' }, { status: 413 });
+  if (contentLength > CMS_LIMITS.uploadBytes + 200_000) {
+    return NextResponse.json({ error: 'File too large (max 5 MB).' }, { status: 413 });
   }
 
   let formData: FormData;

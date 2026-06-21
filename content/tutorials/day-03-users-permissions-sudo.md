@@ -38,6 +38,9 @@ General Linux
 AUTHOR:
 botera
 
+COVER IMAGE (paste this URL into the "Cover image" box):
+https://botera.md/covers/linux-devops-day-3.svg
+
 SEO TITLE:
 Linux to DevOps — Day 3: Permissions, Users & sudo (Beginner)
 
