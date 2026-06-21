@@ -156,6 +156,13 @@ export function TutorialEditor({
   }
 
   async function onUpload(file: File) {
+    // Client-side guard so the user gets an instant, clear message.
+    const MAX = 5 * 1024 * 1024;
+    if (file.size > MAX) {
+      setMessage(`That image is ${(file.size / 1024 / 1024).toFixed(1)} MB. Please use an image under 5 MB (PNG, JPEG, WebP, GIF or SVG).`);
+      return;
+    }
+    setMessage('Uploading image…');
     const data = new FormData();
     data.append('file', file);
     const result = await apiFetch<{ url?: string; error?: string }>('/api/admin/upload', {
@@ -164,8 +171,11 @@ export function TutorialEditor({
     });
     if (result.ok && result.data?.url) {
       update('coverImage', result.data.url);
+      setMessage('Image uploaded.');
+    } else if (result.status === 413) {
+      setMessage('Upload rejected: the image is too large (max 5 MB).');
     } else {
-      setMessage(result.data?.error ?? 'Upload failed.');
+      setMessage(result.data?.error ?? `Upload failed (HTTP ${result.status || 'network error'}).`);
     }
   }
 

@@ -39,7 +39,7 @@ export const CMS_LIMITS = {
   author: 120,
   coverImageUrl: 2_000,
   tagsPerTutorial: 20,
-  uploadBytes: 3 * 1024 * 1024, // 3 MB
+  uploadBytes: 5 * 1024 * 1024, // 5 MB
 } as const;
 
 export const ALLOWED_IMAGE_TYPES: Record<string, string> = {

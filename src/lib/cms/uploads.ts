@@ -25,14 +25,19 @@ export function saveImage(buffer: Buffer, mimeType: string): SaveResult {
   }
   if (buffer.length === 0) return { ok: false, error: 'Empty file.' };
   if (buffer.length > CMS_LIMITS.uploadBytes) {
-    return { ok: false, error: 'File too large (max 3 MB).' };
+    return { ok: false, error: 'File too large (max 5 MB).' };
   }
 
-  const dir = uploadDir();
-  fs.mkdirSync(dir, { recursive: true });
   // Random, server-generated filename: prevents path traversal and collisions.
   const filename = `${crypto.randomBytes(16).toString('hex')}.${ext}`;
-  fs.writeFileSync(path.join(dir, filename), buffer);
+  const dir = uploadDir();
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, filename), buffer);
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : 'unknown error';
+    return { ok: false, error: `Could not save the file on the server (${reason}).` };
+  }
   return { ok: true, filename, url: `/api/uploads/${filename}` };
 }
 
