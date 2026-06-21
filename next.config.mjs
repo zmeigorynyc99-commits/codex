@@ -24,6 +24,10 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
+          // Isolate our browsing context from cross-origin openers/popups.
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          // Deny legacy Adobe cross-domain policy probes outright.
+          { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
         ],
       },
     ];

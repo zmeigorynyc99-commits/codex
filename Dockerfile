@@ -3,9 +3,11 @@
 # ---- Dependencies ----
 FROM node:20-alpine AS deps
 WORKDIR /app
-# libc6-compat helps native deps run on Alpine; build tools allow
-# better-sqlite3 to compile if no musl prebuilt binary is available.
-RUN apk add --no-cache libc6-compat python3 make g++
+# Patch any outstanding OS-package CVEs in the base image, then add the
+# build deps. libc6-compat helps native deps run on Alpine; build tools
+# allow better-sqlite3 to compile if no musl prebuilt binary is available.
+RUN apk upgrade --no-cache \
+  && apk add --no-cache libc6-compat python3 make g++
 COPY package.json package-lock.json ./
 RUN npm ci
 
@@ -50,8 +52,10 @@ ENV NODE_ENV=production \
     CMS_DB_PATH=/app/data/cms.db \
     CMS_UPLOAD_DIR=/app/data/uploads
 
-# libstdc++ is required at runtime by the better-sqlite3 native addon.
-RUN apk add --no-cache libstdc++
+# Patch OS-package CVEs in the runtime base image. libstdc++ is required at
+# runtime by the better-sqlite3 native addon.
+RUN apk upgrade --no-cache \
+  && apk add --no-cache libstdc++
 
 # Run as an unprivileged user.
 RUN addgroup --system --gid 1001 nodejs \
