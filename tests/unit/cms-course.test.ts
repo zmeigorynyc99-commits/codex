@@ -80,7 +80,7 @@ describe('listCourseLessons', () => {
 
     const advanced = listCourseLessons({ difficulty: 'Advanced' }, db);
     expect(advanced).toHaveLength(1);
-    expect(advanced[0].title).toBe('Lesson 2 · Beta');
+    expect(advanced[0]?.title).toBe('Lesson 2 · Beta');
 
     const search = listCourseLessons({ search: 'alpha' }, db);
     expect(search.map((l) => l.title)).toEqual(['Lesson 1 · Alpha']);
