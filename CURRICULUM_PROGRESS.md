@@ -68,26 +68,32 @@ Content — **Linux Fundamentals › Module 1: First Steps** (5 lessons, Beginne
 Validation: `npm run typecheck` clean · `npm test` 172 passing · `npm run build`
 OK · importer clean (5 created, idempotent on re-run).
 
+### ✅ Batch 2 — Linux Fundamentals, Module 2: Text & Help (DONE, committed)
+- 106 Getting Help (man, --help, apropos, whatis, man sections, type/which)
+- 107 Standard I/O & Redirection (streams, `>` `>>` `2>` `2>&1` `&>`, /dev/null, tee, pipes)
+- 108 Finding Text with grep (flags, context, basic + extended regex)
+- 109 Text Processing Pipelines (cut, sort, uniq -c, tr; the extract→sort→uniq→rank pattern)
+- 110 sed & awk Essentials (substitute/delete/in-place; awk fields, filters, arithmetic)
+- 111 Finding Files (find by name/type/size/time/owner, locate, xargs/-exec safely)
+
+Validation: importer imports 11 curriculum lessons cleanly; 78 content tests
+pass. (Levels exercised: Beginner + Intermediate.)
+
 ---
 
-## ▶️ Next up (suggested order for Batch 2)
+## ▶️ Next up (suggested order for Batch 3)
 
-Finish the **Linux Fundamentals** track so the first track is fully shippable:
+**Linux Fundamentals — Module 3: Users, Permissions & Processes** (Intermediate),
+which completes the track:
+- 112 Users & Groups (/etc/passwd, /etc/group, useradd/usermod/passwd, id)
+- 113 Permissions (rwx, octal, chmod, chown, chgrp, umask)
+- 114 sudo & privilege (sudoers, su vs sudo, least privilege)
+- 115 Processes (ps, top/htop, kill/signals, jobs, &, nohup)
+- 116 systemd & services (systemctl, units, journalctl)
+- 117 Package Management (apt/dnf/pacman, repos, updates)
+- 118 Text Editors Survival (nano + vim basics)
 
-- **Module 2 — Text & Help** (Beginner→Intermediate):
-  - 106 Getting Help (man, --help, apropos, info, type, which, tldr)
-  - 107 Standard I/O & Redirection (stdin/stdout/stderr, `>`, `>>`, `2>`, `|`)
-  - 108 Finding Text with grep (+ regex basics)
-  - 109 Text Processing (cut, sort, uniq, tr, wc pipelines)
-  - 110 sed & awk essentials
-  - 111 Finding files (find, locate, xargs)
-- **Module 3 — Users, Permissions, Processes** (Intermediate):
-  - 112 Users & groups · 113 Permissions (rwx, chmod, chown, umask) ·
-    114 sudo · 115 Processes (ps, top, kill, jobs) · 116 systemd basics ·
-    117 Packages (apt/dnf) · 118 Editors (nano, vim survival).
-
-Each lesson needs a cover (reuse the track cover or add per-module art under
-`public/covers/curriculum/`).
+After that, the track is complete → start **linux-administration** per the map.
 
 ### Then (subsequent batches), per `curriculum.json` track order
 linux-administration → shell-bash → networking → security → git-vcs →
