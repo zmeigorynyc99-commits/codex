@@ -65,8 +65,11 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-# Admin/maintenance scripts (e.g. create-admin) for `docker compose exec`.
+# Admin/maintenance scripts (e.g. create-admin, import-content).
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+# Curriculum source: lessons are imported into the CMS on startup (no manual
+# uploads). The importer reads from /app/content/curriculum.
+COPY --from=builder --chown=nextjs:nodejs /app/content ./content
 
 # Persistent data directory (SQLite database + uploaded images).
 RUN mkdir -p /app/data/uploads && chown -R nextjs:nodejs /app/data
@@ -79,4 +82,7 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD wget -q --spider http://127.0.0.1:3000/robots.txt || exit 1
 
-CMD ["node", "server.js"]
+# Import the curriculum into the CMS database (idempotent, non-destructive),
+# then start the server. The importer prunes lessons whose source file was
+# removed so the catalogue always matches the repository.
+CMD ["sh", "-c", "node scripts/import-content.mjs --prune; node server.js"]

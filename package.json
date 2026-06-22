@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "content:import": "node scripts/import-content.mjs",
     "e2e": "playwright test",
     "e2e:install": "playwright install --with-deps",
     "lighthouse": "lhci autorun"

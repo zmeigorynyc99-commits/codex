@@ -1,0 +1,224 @@
+{
+  "$schema": "./curriculum.schema.note.md",
+  "title": "botera — Infrastructure & Operations Curriculum",
+  "description": "A practical, hands-on path from absolute beginner to expert across Linux, Windows, networking, security, cloud, DevOps, SRE and platform engineering. Every lesson includes explanations, examples, hands-on labs, exercises, troubleshooting drills, an assessment with passing requirements, and validated solutions.",
+  "levels": ["Beginner", "Intermediate", "Advanced", "Senior", "Expert"],
+  "tracks": [
+    {
+      "slug": "linux-fundamentals",
+      "name": "Linux Fundamentals",
+      "category": "Linux Fundamentals",
+      "order": 10,
+      "summary": "Absolute basics to confident power-user: the shell, filesystem, files, text, permissions, processes and the help system.",
+      "levels": ["Beginner", "Intermediate"],
+      "certifications": ["CompTIA Linux+", "LPIC-1", "RHCSA (foundation)"]
+    },
+    {
+      "slug": "linux-administration",
+      "name": "Linux System Administration",
+      "category": "Linux Administration",
+      "order": 20,
+      "summary": "Run real servers: users & groups at scale, systemd, packages, storage & LVM, networking config, logging, scheduling, backups and tuning.",
+      "levels": ["Intermediate", "Advanced", "Senior"],
+      "certifications": ["LPIC-1", "LPIC-2", "RHCSA", "RHCE"]
+    },
+    {
+      "slug": "shell-bash",
+      "name": "Shell & Bash Scripting",
+      "category": "Shell & Scripting",
+      "order": 30,
+      "summary": "From your first script to robust, production-grade automation: variables, control flow, functions, text processing, traps, and safe Bash.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["LPIC-1", "RHCSA"]
+    },
+    {
+      "slug": "python-automation",
+      "name": "Python for Automation",
+      "category": "Shell & Scripting",
+      "order": 35,
+      "summary": "Python for operators: files, subprocess, APIs, parsing, virtualenvs, packaging and building reliable ops tooling.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["PCEP", "PCAP"]
+    },
+    {
+      "slug": "networking",
+      "name": "Networking",
+      "category": "Networking",
+      "order": 40,
+      "summary": "OSI & TCP/IP, addressing & subnetting, routing & switching, DNS, DHCP, NAT, VLANs, firewalls and methodical network troubleshooting.",
+      "levels": ["Beginner", "Intermediate", "Advanced", "Senior"],
+      "certifications": ["CompTIA Network+", "CCNA"]
+    },
+    {
+      "slug": "windows-administration",
+      "name": "Windows Administration",
+      "category": "Windows Administration",
+      "order": 50,
+      "summary": "Windows client and server fundamentals: the OS model, the registry, services, users, NTFS permissions, the event log and management tooling.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["CompTIA A+", "MD-102"]
+    },
+    {
+      "slug": "windows-server-ad",
+      "name": "Windows Server & Active Directory",
+      "category": "Windows Administration",
+      "order": 55,
+      "summary": "Domains, Active Directory, Group Policy, DNS/DHCP on Windows, file & print services, certificate services and AD hardening.",
+      "levels": ["Intermediate", "Advanced", "Senior"],
+      "certifications": ["AZ-800", "AZ-801"]
+    },
+    {
+      "slug": "powershell",
+      "name": "PowerShell",
+      "category": "Shell & Scripting",
+      "order": 58,
+      "summary": "Object-oriented automation for Windows and beyond: the pipeline, cmdlets, scripting, remoting, modules and DSC.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["AZ-800"]
+    },
+    {
+      "slug": "security",
+      "name": "Security & Defensive Operations",
+      "category": "Security",
+      "order": 60,
+      "summary": "Threat models, hardening, identity, cryptography basics, firewalls/IDS, logging & SIEM, vulnerability management and incident response.",
+      "levels": ["Beginner", "Intermediate", "Advanced", "Senior", "Expert"],
+      "certifications": ["CompTIA Security+", "Blue Team", "CISSP (foundation)"]
+    },
+    {
+      "slug": "git-vcs",
+      "name": "Git & Version Control",
+      "category": "DevOps",
+      "order": 70,
+      "summary": "Version control mastery: commits, branching, merging, rebasing, remotes, pull requests and team workflows that underpin CI/CD.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": []
+    },
+    {
+      "slug": "docker-containers",
+      "name": "Docker & Containers",
+      "category": "Containers & Docker",
+      "order": 80,
+      "summary": "Containers from first principles: images, Dockerfiles, volumes, networking, Compose, registries and production image hygiene.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["Docker DCA"]
+    },
+    {
+      "slug": "kubernetes",
+      "name": "Kubernetes",
+      "category": "Containers & Docker",
+      "order": 85,
+      "summary": "Orchestration at scale: pods, deployments, services, config, storage, RBAC, Helm, operators and cluster troubleshooting.",
+      "levels": ["Intermediate", "Advanced", "Senior", "Expert"],
+      "certifications": ["CKA", "CKAD", "CKS"]
+    },
+    {
+      "slug": "cicd",
+      "name": "CI/CD Pipelines",
+      "category": "DevOps",
+      "order": 90,
+      "summary": "Continuous integration & delivery: pipelines, build/test/deploy stages, artifacts, environments and progressive delivery.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["GitHub Actions", "GitLab CI"]
+    },
+    {
+      "slug": "iac-terraform",
+      "name": "Infrastructure as Code (Terraform)",
+      "category": "DevOps",
+      "order": 95,
+      "summary": "Declarative infrastructure: providers, resources, state, modules, workspaces and safe plan/apply workflows.",
+      "levels": ["Beginner", "Intermediate", "Advanced", "Senior"],
+      "certifications": ["HashiCorp Terraform Associate"]
+    },
+    {
+      "slug": "config-ansible",
+      "name": "Configuration Management (Ansible)",
+      "category": "DevOps",
+      "order": 96,
+      "summary": "Agentless automation: inventories, playbooks, roles, variables, templates, idempotence and fleet management.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": ["RHCE (Ansible)"]
+    },
+    {
+      "slug": "cloud-fundamentals",
+      "name": "Cloud Fundamentals",
+      "category": "Cloud",
+      "order": 100,
+      "summary": "Cloud concepts that transfer everywhere: compute, storage, networking, identity, regions, billing and the shared-responsibility model — with AWS, Azure and GCP examples.",
+      "levels": ["Beginner", "Intermediate", "Advanced", "Senior"],
+      "certifications": ["AWS Cloud Practitioner", "AZ-900", "Google ACE"]
+    },
+    {
+      "slug": "observability",
+      "name": "Monitoring, Logging & Observability",
+      "category": "SRE & Observability",
+      "order": 110,
+      "summary": "See your systems: metrics with Prometheus, dashboards with Grafana, logs with the ELK/Loki stack, tracing, alerting and SLOs.",
+      "levels": ["Intermediate", "Advanced", "Senior"],
+      "certifications": ["PCA (Prometheus)"]
+    },
+    {
+      "slug": "databases",
+      "name": "Databases & Data Infrastructure",
+      "category": "Databases",
+      "order": 120,
+      "summary": "Operate data stores: SQL foundations, PostgreSQL/MySQL administration, backups & PITR, replication, indexing and performance.",
+      "levels": ["Beginner", "Intermediate", "Advanced", "Senior"],
+      "certifications": []
+    },
+    {
+      "slug": "web-infra",
+      "name": "Web Infrastructure",
+      "category": "Web Servers",
+      "order": 130,
+      "summary": "Serve the web reliably: Nginx & HAProxy, reverse proxies, TLS/Let's Encrypt, caching, load balancing and CDNs.",
+      "levels": ["Beginner", "Intermediate", "Advanced"],
+      "certifications": []
+    },
+    {
+      "slug": "virtualization",
+      "name": "Virtualization",
+      "category": "Virtualization",
+      "order": 140,
+      "summary": "Hypervisors and VMs: KVM/QEMU, libvirt, VMware, Hyper-V and Proxmox, plus snapshots, templates and resource control.",
+      "levels": ["Intermediate", "Advanced"],
+      "certifications": []
+    },
+    {
+      "slug": "storage",
+      "name": "Storage & Filesystems",
+      "category": "Storage & Filesystems",
+      "order": 150,
+      "summary": "Disks to distributed storage: partitions, filesystems, LVM, RAID, NFS/SMB, iSCSI and object storage.",
+      "levels": ["Intermediate", "Advanced", "Senior"],
+      "certifications": ["LPIC-2"]
+    },
+    {
+      "slug": "backup-dr-ha",
+      "name": "Backup, DR & High Availability",
+      "category": "Reliability",
+      "order": 160,
+      "summary": "Survive failure: backup strategy (3-2-1), restore testing, RPO/RTO, clustering, failover and disaster-recovery planning.",
+      "levels": ["Intermediate", "Advanced", "Senior"],
+      "certifications": []
+    },
+    {
+      "slug": "sre-platform",
+      "name": "SRE & Platform Engineering",
+      "category": "Reliability",
+      "order": 170,
+      "summary": "Reliability as engineering: SLI/SLO/error budgets, toil reduction, capacity, on-call, platforms, golden paths and incident command.",
+      "levels": ["Advanced", "Senior", "Expert"],
+      "certifications": []
+    },
+    {
+      "slug": "troubleshooting-ir",
+      "name": "Troubleshooting & Incident Response",
+      "category": "Reliability",
+      "order": 180,
+      "summary": "A repeatable method for diagnosing anything: systematic troubleshooting, performance analysis (USE/RED), debugging and blameless postmortems.",
+      "levels": ["Intermediate", "Advanced", "Senior", "Expert"],
+      "certifications": []
+    }
+  ]
+}

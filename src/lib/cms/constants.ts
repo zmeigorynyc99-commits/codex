@@ -1,6 +1,6 @@
 /** Shared constants and enums for the Linux Tutorials CMS. */
 
-export const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'] as const;
+export const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced', 'Senior', 'Expert'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
 export const DISTRIBUTIONS = [
@@ -10,6 +10,8 @@ export const DISTRIBUTIONS = [
   'Fedora',
   'Arch',
   'General Linux',
+  'Windows',
+  'Cross-platform',
 ] as const;
 export type Distribution = (typeof DISTRIBUTIONS)[number];
 
