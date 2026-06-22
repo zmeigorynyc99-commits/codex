@@ -19,8 +19,8 @@ export interface LessonCardData {
  * A horizontal "corridor of lessons": a single ordered, de-duplicated sequence
  * the user can swipe (touch), drag (mouse), trackpad-scroll, arrow-click or
  * keyboard through. Cards snap into place; a progress indicator shows position.
- * Each card is rendered exactly once — the carousel never clones lessons, so it
- * cannot introduce duplicate markup or links.
+ * Each lesson is rendered exactly once and the whole card is a link, so a plain
+ * click always opens the lesson — drag only kicks in after real movement.
  */
 export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,6 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
     [total],
   );
 
-  // Keep the progress indicator in sync with the scroll position.
   const syncCurrent = useCallback(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -56,6 +55,20 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
     setCurrent(nearest);
   }, []);
 
+  const currentRef = useRef(0);
+  useEffect(() => {
+    currentRef.current = current;
+  }, [current]);
+
+  // Always start the corridor at Lesson 1.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (track) {
+      track.scrollLeft = 0;
+      setCurrent(0);
+    }
+  }, []);
+
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -71,7 +84,6 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
     };
   }, [syncCurrent]);
 
-  // Arrow navigation wraps for a continuous "loop" feel without duplicating DOM.
   const go = useCallback(
     (delta: number) => {
       const next = (current + delta + total) % total;
@@ -96,48 +108,51 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
     }
   };
 
-  // Mouse drag-to-scroll (touch/trackpad use native scrolling + snap).
-  const drag = useRef({ active: false, startX: 0, startScroll: 0, moved: false });
+  // Mouse drag-to-scroll that is click-safe: we only treat it as a drag once the
+  // pointer has actually moved past a small threshold, and only then capture the
+  // pointer. A plain click is never intercepted, so the card link opens normally.
+  const drag = useRef({ down: false, dragging: false, startX: 0, startScroll: 0 });
+  const suppressClick = useRef(false);
+
   const onPointerDown = (e: React.PointerEvent) => {
-    if (e.pointerType !== 'mouse') return;
+    if (e.pointerType !== 'mouse') return; // touch/pen use native scrolling
     const track = trackRef.current;
     if (!track) return;
-    drag.current = { active: true, startX: e.clientX, startScroll: track.scrollLeft, moved: false };
-    track.style.scrollBehavior = 'auto'; // track the cursor crisply during a drag
-    track.setPointerCapture(e.pointerId);
+    drag.current = { down: true, dragging: false, startX: e.clientX, startScroll: track.scrollLeft };
   };
   const onPointerMove = (e: React.PointerEvent) => {
-    if (!drag.current.active) return;
+    if (!drag.current.down) return;
     const track = trackRef.current;
     if (!track) return;
     const dx = e.clientX - drag.current.startX;
-    if (Math.abs(dx) > 4) drag.current.moved = true;
+    if (!drag.current.dragging) {
+      if (Math.abs(dx) < 6) return; // not a drag yet
+      drag.current.dragging = true;
+      track.style.scrollBehavior = 'auto';
+      track.setPointerCapture(e.pointerId);
+    }
     track.scrollLeft = drag.current.startScroll - dx;
   };
   const endDrag = (e: React.PointerEvent) => {
-    if (!drag.current.active) return;
-    drag.current.active = false;
+    const wasDragging = drag.current.dragging;
     const track = trackRef.current;
-    if (track) {
+    if (track && drag.current.dragging) {
       if (track.hasPointerCapture(e.pointerId)) track.releasePointerCapture(e.pointerId);
-      track.style.scrollBehavior = ''; // restore smooth scrolling for the snap
+      track.style.scrollBehavior = '';
     }
-    // Snap to the nearest card after a free drag.
-    syncCurrent();
-    requestAnimationFrame(() => scrollToIndex(currentRef.current));
+    drag.current.down = false;
+    drag.current.dragging = false;
+    if (wasDragging) {
+      suppressClick.current = true; // swallow the click that follows a drag
+      syncCurrent();
+      requestAnimationFrame(() => scrollToIndex(currentRef.current));
+    }
   };
-  // Always-fresh current index for the drag-end snap.
-  const currentRef = useRef(0);
-  useEffect(() => {
-    currentRef.current = current;
-  }, [current]);
-
-  // Suppress the click that follows a drag so a drag doesn't open a lesson.
   const onClickCapture = (e: React.MouseEvent) => {
-    if (drag.current.moved) {
+    if (suppressClick.current) {
       e.preventDefault();
       e.stopPropagation();
-      drag.current.moved = false;
+      suppressClick.current = false;
     }
   };
 
@@ -153,7 +168,6 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
 
   return (
     <section aria-roledescription="carousel" aria-label="Course lessons" className="relative">
-      {/* Progress + controls */}
       <div className="mb-3 flex items-center justify-between gap-4">
         <div className="min-w-0">
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200" aria-live="polite">
@@ -187,7 +201,6 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
       </div>
 
       <div className="relative">
-        {/* Edge arrows for the corridor feel on larger screens */}
         <button
           type="button"
           onClick={() => go(-1)}
@@ -219,23 +232,23 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
           className="scrollbar-hide relative flex cursor-grab snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
         >
           {lessons.map((lesson, i) => (
-            <article
+            <Link
               key={lesson.slug}
+              href={`/linux-tutorials/${lesson.slug}`}
+              draggable={false}
               aria-roledescription="slide"
-              aria-label={`Lesson ${i + 1} of ${total}`}
-              className="card flex shrink-0 basis-[88%] snap-start flex-col overflow-hidden p-0 sm:basis-[58%] lg:basis-[42%] xl:basis-[32%]"
+              aria-label={`Lesson ${i + 1} of ${total}: ${lesson.title}`}
+              className="card group flex shrink-0 basis-[88%] snap-start flex-col overflow-hidden p-0 no-underline transition hover:ring-2 hover:ring-brand-500/40 sm:basis-[58%] lg:basis-[42%] xl:basis-[32%]"
             >
               {lesson.coverImage && (
-                <Link href={`/linux-tutorials/${lesson.slug}`} className="block" draggable={false}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={lesson.coverImage}
-                    alt=""
-                    draggable={false}
-                    className="aspect-[16/9] w-full object-cover"
-                    loading="lazy"
-                  />
-                </Link>
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={lesson.coverImage}
+                  alt=""
+                  draggable={false}
+                  className="aspect-[16/9] w-full object-cover"
+                  loading="lazy"
+                />
               )}
               <div className="flex flex-1 flex-col p-5">
                 <div className="mb-2 flex flex-wrap gap-1.5">
@@ -245,14 +258,8 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
                   <span className="badge badge-distro">{lesson.distribution}</span>
                   {lesson.categoryName && <span className="badge badge-neutral">{lesson.categoryName}</span>}
                 </div>
-                <h3 className="text-lg font-semibold">
-                  <Link
-                    href={`/linux-tutorials/${lesson.slug}`}
-                    draggable={false}
-                    className="text-slate-900 hover:text-brand-700 dark:text-white dark:hover:text-brand-300"
-                  >
-                    {lesson.title}
-                  </Link>
+                <h3 className="text-lg font-semibold text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+                  {lesson.title}
                 </h3>
                 <p className="mt-1 line-clamp-3 flex-1 text-sm text-slate-600 dark:text-slate-400">
                   {lesson.summary}
@@ -263,7 +270,7 @@ export function LessonCarousel({ lessons }: { lessons: LessonCardData[] }) {
                   <span>{lesson.minutes} min read</span>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

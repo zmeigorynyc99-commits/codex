@@ -6,6 +6,7 @@ import { isDifficulty, isDistribution } from '@/lib/cms/constants';
 import { readingTime } from '@/lib/cms/markdown';
 import { formatDate } from '@/lib/cms/format';
 import { LessonCarousel, type LessonCardData } from '@/components/cms/LessonCarousel';
+import { SubnetCheatSheet } from '@/components/cms/SubnetCheatSheet';
 import { TutorialFilters } from '@/components/cms/TutorialFilters';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 
@@ -97,6 +98,37 @@ export default function LinuxTutorialsPage({ searchParams }: PageProps) {
           <LessonCarousel lessons={cards} />
         )}
       </div>
+
+      {cards.length > 0 && (
+        <div className="mt-14 grid gap-8 lg:grid-cols-[1fr_340px]">
+          {/* Plain, always-clickable index so every lesson is browsable even
+              without the carousel's JavaScript. */}
+          <section aria-labelledby="all-lessons-heading">
+            <h2 id="all-lessons-heading" className="mb-3 text-xl font-bold">
+              All lessons <span className="text-slate-400">({cards.length})</span>
+            </h2>
+            <ol className="divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 bg-white/95 dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900/95">
+              {lessons.map((t, i) => (
+                <li key={t.slug}>
+                  <Link
+                    href={`/linux-tutorials/${t.slug}`}
+                    className="flex items-baseline gap-3 px-4 py-2.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                  >
+                    <span className="w-7 shrink-0 font-mono text-xs text-slate-400">{i + 1}</span>
+                    <span className="font-medium text-slate-800 hover:text-brand-700 dark:text-slate-100 dark:hover:text-brand-300">
+                      {t.title.replace(/^Lesson\s+\d+\s+·\s+/, '')}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <aside className="lg:sticky lg:top-20 lg:self-start">
+            <SubnetCheatSheet />
+          </aside>
+        </div>
+      )}
     </div>
   );
 }
