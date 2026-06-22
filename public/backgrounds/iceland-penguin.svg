@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440" role="img" aria-label="Atmospheric dark Icelandic coastline with a penguin holding a small flower">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#070c18"/>
+      <stop offset="0.45" stop-color="#0b1324"/>
+      <stop offset="0.8" stop-color="#0e162a" stop-opacity="1"/>
+      <stop offset="1" stop-color="#0c1626"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1a2c"/>
+      <stop offset="1" stop-color="#070e1a"/>
+    </linearGradient>
+    <linearGradient id="mistFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#26374f" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#26374f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#0c1322"/>
+      <stop offset="0.6" stop-color="#1a2436"/>
+      <stop offset="1" stop-color="#33506f"/>
+    </linearGradient>
+    <linearGradient id="bellyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c2cad6"/>
+      <stop offset="1" stop-color="#8b97a8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#3b5a7d" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#3b5a7d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="readLeft" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#03070f" stop-opacity="0.95"/>
+      <stop offset="0.38" stop-color="#040912" stop-opacity="0.78"/>
+      <stop offset="0.7" stop-color="#050b16" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#050b16" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="2560" height="1440" fill="url(#sky)"/>
+  <!-- Faint glow behind the subject, low on the right -->
+  <ellipse cx="1980" cy="900" rx="900" ry="620" fill="url(#glow)"/>
+
+  <!-- Far ice mountains / glaciers -->
+  <g opacity="0.85">
+    <path d="M0 720 L240 560 L470 690 L760 470 L1040 690 L1340 500 L1640 700 L1980 520 L2300 700 L2560 600 L2560 920 L0 920 Z" fill="#1a2942"/>
+    <path d="M760 470 L860 560 L660 600 Z" fill="#223651" opacity="0.8"/>
+    <path d="M1340 500 L1460 620 L1230 640 Z" fill="#223651" opacity="0.8"/>
+    <path d="M1980 520 L2120 660 L1850 670 Z" fill="#223651" opacity="0.8"/>
+  </g>
+  <!-- Mid ridge -->
+  <path d="M0 820 L320 700 L640 820 L980 690 L1320 830 L1700 710 L2060 840 L2400 740 L2560 800 L2560 1040 L0 1040 Z" fill="#141f33"/>
+  <!-- Mist over the far ranges -->
+  <rect x="0" y="640" width="2560" height="320" fill="url(#mistFar)"/>
+  <!-- Near dark hills -->
+  <path d="M0 960 L420 880 L900 980 L1400 900 L1900 990 L2300 910 L2560 970 L2560 1180 L0 1180 Z" fill="#0c1526"/>
+
+  <!-- Calm water -->
+  <rect x="0" y="1120" width="2560" height="320" fill="url(#water)"/>
+  <!-- Subtle water highlights -->
+  <g stroke="#3a5573" opacity="0.18" stroke-width="2">
+    <line x1="120" y1="1200" x2="520" y2="1200" stroke="#3a5573"/>
+    <line x1="300" y1="1270" x2="900" y2="1270" stroke="#3a5573"/>
+    <line x1="1500" y1="1230" x2="2100" y2="1230" stroke="#3a5573"/>
+  </g>
+
+  <!-- Shore rock the penguin stands on -->
+  <ellipse cx="2040" cy="1230" rx="430" ry="70" fill="#0a1120"/>
+  <ellipse cx="2040" cy="1218" rx="360" ry="46" fill="#10192b"/>
+
+  <!-- ===== Penguin (right side), holding a small flower ===== -->
+  <g transform="translate(2040,760)">
+    <!-- soft ground shadow -->
+    <ellipse cx="10" cy="470" rx="200" ry="38" fill="#05090f" opacity="0.6"/>
+
+    <!-- feet -->
+    <path d="M-70 430 q-8 40 38 46 q44 4 40 -30 q-2 -22 -30 -30 Z" fill="#c4894f"/>
+    <path d="M48 430 q-6 40 40 46 q44 4 40 -30 q-2 -22 -32 -30 Z" fill="#c4894f"/>
+
+    <!-- body -->
+    <path d="M0 -360
+             C 170 -360 210 -180 210 -20
+             C 210 200 150 430 0 430
+             C -150 430 -210 200 -210 -20
+             C -210 -180 -170 -360 0 -360 Z" fill="url(#bodyGrad)"/>
+    <!-- belly -->
+    <path d="M18 -210
+             C 120 -200 150 -40 150 70
+             C 150 250 90 400 12 400
+             C -70 400 -120 250 -120 80
+             C -120 -50 -80 -210 18 -210 Z" fill="url(#bellyGrad)" opacity="0.95"/>
+
+    <!-- left flipper (image-left, hanging) -->
+    <path d="M-185 -150 C -250 -60 -250 130 -200 250 C -160 180 -160 -20 -150 -120 Z" fill="#101a2c"/>
+    <!-- right flipper bent forward holding the flower -->
+    <path d="M150 -90 C 230 -40 250 90 150 150 C 120 90 120 -10 150 -90 Z" fill="#16223a"/>
+
+    <!-- head -->
+    <circle cx="0" cy="-300" r="150" fill="url(#bodyGrad)"/>
+    <!-- face patch -->
+    <path d="M8 -360 C 95 -350 110 -250 96 -190 C 80 -130 -70 -130 -86 -200 C -98 -260 -78 -352 8 -360 Z" fill="#cfd6df"/>
+    <!-- eyes -->
+    <circle cx="-44" cy="-322" r="15" fill="#0a0f18"/>
+    <circle cx="44" cy="-322" r="15" fill="#0a0f18"/>
+    <circle cx="-39" cy="-327" r="4.5" fill="#e8edf3"/>
+    <circle cx="49" cy="-327" r="4.5" fill="#e8edf3"/>
+    <!-- beak (muted, subtle) -->
+    <path d="M-26 -262 L26 -262 L0 -218 Z" fill="#b87a42"/>
+
+    <!-- rim light on the subject's right edge (muted blue) -->
+    <path d="M150 -250 C 205 -150 210 60 150 250" fill="none" stroke="#41618a" stroke-width="6" opacity="0.5" stroke-linecap="round"/>
+    <path d="M120 -340 C 150 -330 150 -300 130 -290" fill="none" stroke="#41618a" stroke-width="5" opacity="0.4" stroke-linecap="round"/>
+
+    <!-- the single small flower (the one accent of colour) -->
+    <g transform="translate(150,150)">
+      <path d="M0 0 C 6 40 -2 80 -10 110" fill="none" stroke="#3f6f52" stroke-width="6" stroke-linecap="round"/>
+      <path d="M-4 60 C -34 48 -46 64 -40 84 C -18 84 -4 78 -4 60 Z" fill="#3f6f52"/>
+      <g>
+        <circle cx="0" cy="-8" r="16" fill="#f2a6bb"/>
+        <circle cx="-15" cy="2" r="16" fill="#ef9bb3"/>
+        <circle cx="15" cy="2" r="16" fill="#ef9bb3"/>
+        <circle cx="-9" cy="18" r="16" fill="#f2a6bb"/>
+        <circle cx="9" cy="18" r="16" fill="#f2a6bb"/>
+        <circle cx="0" cy="4" r="11" fill="#e9c97e"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Light falling snow -->
+  <g fill="#cdd7e4">
+    <circle cx="160" cy="240" r="2.4" opacity="0.5"/>
+    <circle cx="420" cy="430" r="1.8" opacity="0.4"/>
+    <circle cx="300" cy="640" r="2.6" opacity="0.45"/>
+    <circle cx="620" cy="180" r="2" opacity="0.5"/>
+    <circle cx="760" cy="520" r="1.6" opacity="0.35"/>
+    <circle cx="980" cy="300" r="2.5" opacity="0.5"/>
+    <circle cx="1120" cy="660" r="1.8" opacity="0.4"/>
+    <circle cx="1340" cy="220" r="2.2" opacity="0.45"/>
+    <circle cx="1500" cy="500" r="1.6" opacity="0.35"/>
+    <circle cx="1680" cy="320" r="2.6" opacity="0.5"/>
+    <circle cx="1840" cy="640" r="1.8" opacity="0.4"/>
+    <circle cx="2040" cy="240" r="2.2" opacity="0.45"/>
+    <circle cx="2260" cy="420" r="1.8" opacity="0.4"/>
+    <circle cx="2420" cy="300" r="2.4" opacity="0.5"/>
+    <circle cx="2360" cy="640" r="1.6" opacity="0.35"/>
+    <circle cx="540" cy="900" r="2" opacity="0.35"/>
+    <circle cx="1180" cy="980" r="1.8" opacity="0.3"/>
+    <circle cx="1720" cy="900" r="2.2" opacity="0.35"/>
+    <circle cx="2240" cy="980" r="1.8" opacity="0.3"/>
+    <circle cx="240" cy="1100" r="2" opacity="0.3"/>
+    <circle cx="880" cy="120" r="1.6" opacity="0.4"/>
+    <circle cx="1980" cy="120" r="1.8" opacity="0.4"/>
+  </g>
+
+  <!-- Keep the centre-left dark and simple for white website text -->
+  <rect width="2560" height="1440" fill="url(#readLeft)"/>
+</svg>

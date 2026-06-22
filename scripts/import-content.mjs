@@ -36,7 +36,7 @@ const FRESH = process.argv.includes('--fresh');
 // Bump when the stored representation of a lesson changes (e.g. a new column the
 // importer must backfill) so every lesson re-syncs once even if its content is
 // otherwise unchanged. This is included in the idempotency hash.
-const IMPORT_VERSION = 2;
+const IMPORT_VERSION = 3;
 
 const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced', 'Senior', 'Expert'];
 const DISTRIBUTIONS = ['Ubuntu', 'Debian', 'CentOS', 'Fedora', 'Arch', 'General Linux', 'Windows', 'Cross-platform'];
@@ -250,24 +250,18 @@ function main() {
     lessons.push({ rel, record });
   }
 
-  // Pass 2: number lessons within each track (sorted by `order`, then slug) and
-  // prepend a stable "Lesson N · " index to the displayed title.
-  const byTrack = new Map();
-  for (const lesson of lessons) {
-    const key = lesson.record.track || 'general';
-    if (!byTrack.has(key)) byTrack.set(key, []);
-    byTrack.get(key).push(lesson);
-  }
-  for (const group of byTrack.values()) {
-    group.sort((a, b) =>
-      a.record.order - b.record.order || a.record.slug.localeCompare(b.record.slug),
-    );
-    group.forEach((lesson, i) => {
-      const baseTitle = lesson.record.title.replace(/^Lesson\s+\d+\s+·\s+/, '');
-      lesson.record.lessonIndex = i + 1;
-      lesson.record.title = `Lesson ${i + 1} · ${baseTitle}`;
-    });
-  }
+  // Pass 2: number lessons as ONE continuous sequence (Lesson 1 → final lesson),
+  // sorted numerically by `order` (then slug), and prepend a stable "Lesson N · "
+  // index to the title. Numbering is GLOBAL (not per-track), so a lesson number
+  // is never repeated across the course.
+  lessons.sort(
+    (a, b) => a.record.order - b.record.order || a.record.slug.localeCompare(b.record.slug),
+  );
+  lessons.forEach((lesson, i) => {
+    const baseTitle = lesson.record.title.replace(/^Lesson\s+\d+\s+·\s+/, '');
+    lesson.record.lessonIndex = i + 1;
+    lesson.record.title = `Lesson ${i + 1} · ${baseTitle}`;
+  });
 
   const sync = db.transaction(() => {
     if (FRESH) {

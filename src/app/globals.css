@@ -190,6 +190,17 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Atmospheric Iceland/penguin backdrop for the lessons page. The penguin sits
+     on the right; an extra dark wash keeps the centre-left readable. */
+  .lessons-backdrop {
+    background-image:
+      linear-gradient(to right, rgba(3, 7, 15, 0.94), rgba(4, 9, 18, 0.72) 42%, rgba(5, 11, 22, 0.32) 78%, rgba(5, 11, 22, 0.2)),
+      url('/backgrounds/iceland-penguin.svg');
+    background-size: cover, cover;
+    background-position: center, right center;
+    background-repeat: no-repeat, no-repeat;
+  }
 }
 
 /* highlight.js theme (GitHub-dark inspired, self-contained) */

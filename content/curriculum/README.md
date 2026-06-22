@@ -30,11 +30,13 @@ The taxonomy (tracks, levels, target certifications) is described in
 
 ### Automatic lesson numbering
 
-The importer prepends a per-track index to each lesson's displayed title —
-`Lesson 1 · …`, `Lesson 2 · …` — computed from the `order` field within each
-`track`. You do **not** put the number in the title yourself; set `track` and
-`order` correctly and the index follows automatically (and renumbers if you
-insert a lesson). Numbering restarts at 1 for every track.
+The importer prepends a single **continuous** index to each lesson's displayed
+title — `Lesson 1 · …`, `Lesson 2 · …` — computed from the global `order` field
+across the whole course (not per track), so a lesson number is never repeated.
+You do **not** put the number in the title yourself; set `order` correctly and
+the index follows automatically (and everything after an inserted lesson
+renumbers). Keep `order` values globally increasing across tracks (e.g. 101–199
+for the first track, 201–299 for the next).
 
 ## Lesson front-matter template
 

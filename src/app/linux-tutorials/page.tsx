@@ -61,6 +61,8 @@ export default function LinuxTutorialsPage({ searchParams }: PageProps) {
 
   return (
     <div className="container-content py-10">
+      {/* Atmospheric backdrop (penguin on the right, dark on the left for text). */}
+      <div aria-hidden="true" className="lessons-backdrop pointer-events-none fixed inset-0 -z-10" />
       <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Linux Tutorials' }]} />
 
       <div className="flex flex-wrap items-end justify-between gap-3">
