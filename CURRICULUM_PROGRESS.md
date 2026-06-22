@@ -106,21 +106,30 @@ Track cover added: `public/covers/curriculum/linux-administration.svg`.
 Validation: importer imports 22 lessons cleanly; 155 content tests pass.
 Totals so far: 22 lessons (Linux Fundamentals 18 + Linux Administration 4).
 
+### 🟡 Batch 6 — Linux System Administration, Module 2: Networking (DONE, committed)
+- 205 Network Configuration (Netplan + nmcli, static IPs, netplan try safety)
+- 206 DNS Resolution & Hostnames (/etc/hosts, systemd-resolved, resolvectl, dig)
+- 207 Routing & Multiple Interfaces [Advanced] (ip route, longest-prefix, persistent
+  routes, multi-homed, ip_forward, policy-routing concepts)
+- 208 Network Troubleshooting (layered method: ip/ping/mtr/ss/dig/curl/tcpdump)
+
+Validation: importer imports 26 lessons cleanly; 183 content tests pass.
+Totals so far: 26 lessons (Linux Fundamentals 18 + Linux Administration 8).
+
 ---
 
-## ▶️ Next up (Batch 6) — continue linux-administration
+## ▶️ Next up (Batch 7) — continue linux-administration
 
-**Module 2: Networking Configuration** (Intermediate→Advanced):
-- 205 Network config with Netplan / nmcli (static IPs, persistent config)
-- 206 DNS resolution & hostnames (/etc/hosts, /etc/resolv.conf, systemd-resolved)
-- 207 Routing & multiple interfaces (ip route, persistent routes, policy basics)
-- 208 Network troubleshooting from the server (ss, ping/mtr, tcpdump intro, curl)
+**Module 3: Scheduling, Logging & Time** (Intermediate→Advanced):
+- 209 cron & systemd timers in depth (crontab, OnCalendar, persistent timers)
+- 210 Logging architecture (journald config, rsyslog, central logging, logrotate)
+- 211 Time sync (chrony/systemd-timesyncd, timezones, why clock drift breaks things)
+Then **Module 4: Performance & Tuning** (Advanced→Senior):
+- 212 Performance methodology & load (uptime, vmstat, the USE method)
+- 213 CPU & memory analysis (top/pidstat, OOM, memory pressure)
+- 214 Disk & I/O (iostat, iotop), 215 sysctl & limits (ulimit, nofile, kernel params)
 
-Then **Module 3: Scheduling, Logging & Time** (cron, systemd timers deep-dive,
-journald config, logrotate, rsyslog, chrony/NTP) and **Module 4: Performance &
-Tuning** (load, vmstat/iostat/sar, sysctl, ulimits, OOM, basic capacity).
-
-Remaining tracks after linux-administration, in `curriculum.json` order: shell-bash,
+Then the track is complete → next track per `curriculum.json`: shell-bash, then
 python-automation, networking, windows-administration, windows-server-ad, powershell,
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
