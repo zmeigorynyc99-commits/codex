@@ -88,19 +88,34 @@ pass. (Levels exercised: Beginner + Intermediate.)
 Validation: importer imports 15 curriculum lessons cleanly; 106 content tests
 pass.
 
+### ✅ Batch 4 — Linux Fundamentals, Module 3 complete (116–118 DONE, committed)
+- 116 systemd & Services (systemctl start/stop/enable, unit files, journalctl)
+- 117 Package Management (apt/dnf/pacman, repos, dpkg, patching, unattended-upgrades)
+- 118 Text Editors Survival (nano essentials; vim survival subset incl. how to quit vim)
+
+🎉 **The linux-fundamentals track is now COMPLETE (18 lessons, 101–118).**
+Validation: importer imports 18 curriculum lessons cleanly; 127 content tests pass.
+
 ---
 
-## ▶️ Next up (Batch 4) — finish Module 3, then the track is done
-- 116 systemd & Services (systemctl start/stop/enable, unit files, journalctl)
-- 117 Package Management (apt/dnf/pacman, repositories, updates, dpkg/rpm)
-- 118 Text Editors Survival (nano essentials + vim modal basics & how to quit vim)
+## ▶️ Next up (Batch 5) — start the linux-administration track
 
-After 116–118 the **linux-fundamentals** track is complete → start
-**linux-administration** per `curriculum.json` order. Then shell-bash, networking,
-security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform,
-config-ansible, cloud-fundamentals, observability, databases, web-infra,
-windows-administration, windows-server-ad, powershell, storage, virtualization,
-backup-dr-ha, sre-platform, troubleshooting-ir.
+Per `curriculum.json` order, the next track is **linux-administration**
+(Intermediate→Senior). Suggested Module 1 "Storage & Filesystems Ops":
+- 201 Disks & partitions (lsblk, fdisk/parted, partition tables)
+- 202 Filesystems (mkfs, mount, /etc/fstab, UUIDs)
+- 203 LVM (PV/VG/LV, extend a volume)
+- 204 Swap & disk usage (df/du, swapon, troubleshooting "disk full")
+Then Module 2 "Networking config" (ip/netplan, static IPs, DNS resolv),
+Module 3 "Scheduling & logging at scale" (cron, systemd timers, journald,
+logrotate, rsyslog), Module 4 "Performance & tuning" (load, vmstat, iostat,
+sysctl, ulimits). Add a track cover at public/covers/curriculum/linux-administration.svg.
+
+Remaining tracks after that, in `curriculum.json` order: shell-bash, python-automation,
+networking, windows-administration, windows-server-ad, powershell, security, git-vcs,
+docker-containers, kubernetes, cicd, iac-terraform, config-ansible, cloud-fundamentals,
+observability, databases, web-infra, virtualization, storage, backup-dr-ha,
+sre-platform, troubleshooting-ir.
 
 ### Then (subsequent batches), per `curriculum.json` track order
 linux-administration → shell-bash → networking → security → git-vcs →
