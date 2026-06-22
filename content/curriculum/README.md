@@ -28,6 +28,14 @@ site.
 The taxonomy (tracks, levels, target certifications) is described in
 `curriculum.json`.
 
+### Automatic lesson numbering
+
+The importer prepends a per-track index to each lesson's displayed title —
+`Lesson 1 · …`, `Lesson 2 · …` — computed from the `order` field within each
+`track`. You do **not** put the number in the title yourself; set `track` and
+`order` correctly and the index follows automatically (and renumbers if you
+insert a lesson). Numbering restarts at 1 for every track.
+
 ## Lesson front-matter template
 
 ```markdown

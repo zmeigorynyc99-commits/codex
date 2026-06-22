@@ -165,12 +165,14 @@ function normalizeLesson(data, body, file) {
     rel,
     errors,
     record: {
-      title,
+      title,                    // base title; a "Lesson N · " index is prepended later
       slug,
       summary,
       content: body,
       cover_image: (data.cover || data.coverImage || null) || null,
       category: (data.category || data.trackName || '').toString().trim(),
+      // Track grouping for the per-track "Lesson N" index.
+      track: (data.track || data.trackName || data.category || 'general').toString().trim(),
       difficulty,
       distribution,
       author: (data.author || 'botera').toString().trim().slice(0, 120),
@@ -211,24 +213,48 @@ function main() {
        updated_at = datetime('now')`,
   );
 
+  // Pass 1: parse and validate every lesson into memory (no DB writes yet) so we
+  // can assign a per-track "Lesson N" index based on each lesson's `order`.
+  const lessons = [];
+  for (const file of files) {
+    const text = fs.readFileSync(file, 'utf8');
+    const { data, body } = parseFrontmatter(text);
+    const { rel, errors, record } = normalizeLesson(data, body, file);
+    if (errors.length) {
+      problems.push(`${rel}: ${errors.join(', ')}`);
+      skipped += 1;
+      continue;
+    }
+    if (seenSlugs.has(record.slug)) {
+      problems.push(`${rel}: duplicate slug "${record.slug}"`);
+      skipped += 1;
+      continue;
+    }
+    seenSlugs.add(record.slug);
+    lessons.push({ rel, record });
+  }
+
+  // Pass 2: number lessons within each track (sorted by `order`, then slug) and
+  // prepend a stable "Lesson N · " index to the displayed title.
+  const byTrack = new Map();
+  for (const lesson of lessons) {
+    const key = lesson.record.track || 'general';
+    if (!byTrack.has(key)) byTrack.set(key, []);
+    byTrack.get(key).push(lesson);
+  }
+  for (const group of byTrack.values()) {
+    group.sort((a, b) =>
+      a.record.order - b.record.order || a.record.slug.localeCompare(b.record.slug),
+    );
+    group.forEach((lesson, i) => {
+      const baseTitle = lesson.record.title.replace(/^Lesson\s+\d+\s+·\s+/, '');
+      lesson.record.lessonIndex = i + 1;
+      lesson.record.title = `Lesson ${i + 1} · ${baseTitle}`;
+    });
+  }
+
   const sync = db.transaction(() => {
-    for (const file of files) {
-      const text = fs.readFileSync(file, 'utf8');
-      const { data, body } = parseFrontmatter(text);
-      const { rel, errors, record } = normalizeLesson(data, body, file);
-
-      if (errors.length) {
-        problems.push(`${rel}: ${errors.join(', ')}`);
-        skipped += 1;
-        continue;
-      }
-      if (seenSlugs.has(record.slug)) {
-        problems.push(`${rel}: duplicate slug "${record.slug}"`);
-        skipped += 1;
-        continue;
-      }
-      seenSlugs.add(record.slug);
-
+    for (const { rel, record } of lessons) {
       const hash = crypto.createHash('sha256').update(JSON.stringify(record)).digest('hex');
       const prior = findImport.get(record.slug);
       const categoryId = ensureCategory(db, record.category);
