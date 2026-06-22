@@ -96,26 +96,35 @@ pass.
 🎉 **The linux-fundamentals track is now COMPLETE (18 lessons, 101–118).**
 Validation: importer imports 18 curriculum lessons cleanly; 127 content tests pass.
 
+### 🟡 Batch 5 — Linux System Administration, Module 1: Storage (DONE, committed)
+Track cover added: `public/covers/curriculum/linux-administration.svg`.
+- 201 Disks & Partitions (lsblk/blkid, MBR vs GPT, parted/fdisk, partprobe)
+- 202 Filesystems & Mounting (mkfs ext4/xfs, mount, UUIDs, /etc/fstab + mount -a safety)
+- 203 LVM (PV/VG/LV, lvextend + resize2fs/xfs_growfs online, vgextend, snapshots) [Advanced]
+- 204 Swap, Disk Usage & "Disk Full" playbook (swap file, df/du, df -i inodes, lsof +L1)
+
+Validation: importer imports 22 lessons cleanly; 155 content tests pass.
+Totals so far: 22 lessons (Linux Fundamentals 18 + Linux Administration 4).
+
 ---
 
-## ▶️ Next up (Batch 5) — start the linux-administration track
+## ▶️ Next up (Batch 6) — continue linux-administration
 
-Per `curriculum.json` order, the next track is **linux-administration**
-(Intermediate→Senior). Suggested Module 1 "Storage & Filesystems Ops":
-- 201 Disks & partitions (lsblk, fdisk/parted, partition tables)
-- 202 Filesystems (mkfs, mount, /etc/fstab, UUIDs)
-- 203 LVM (PV/VG/LV, extend a volume)
-- 204 Swap & disk usage (df/du, swapon, troubleshooting "disk full")
-Then Module 2 "Networking config" (ip/netplan, static IPs, DNS resolv),
-Module 3 "Scheduling & logging at scale" (cron, systemd timers, journald,
-logrotate, rsyslog), Module 4 "Performance & tuning" (load, vmstat, iostat,
-sysctl, ulimits). Add a track cover at public/covers/curriculum/linux-administration.svg.
+**Module 2: Networking Configuration** (Intermediate→Advanced):
+- 205 Network config with Netplan / nmcli (static IPs, persistent config)
+- 206 DNS resolution & hostnames (/etc/hosts, /etc/resolv.conf, systemd-resolved)
+- 207 Routing & multiple interfaces (ip route, persistent routes, policy basics)
+- 208 Network troubleshooting from the server (ss, ping/mtr, tcpdump intro, curl)
 
-Remaining tracks after that, in `curriculum.json` order: shell-bash, python-automation,
-networking, windows-administration, windows-server-ad, powershell, security, git-vcs,
-docker-containers, kubernetes, cicd, iac-terraform, config-ansible, cloud-fundamentals,
-observability, databases, web-infra, virtualization, storage, backup-dr-ha,
-sre-platform, troubleshooting-ir.
+Then **Module 3: Scheduling, Logging & Time** (cron, systemd timers deep-dive,
+journald config, logrotate, rsyslog, chrony/NTP) and **Module 4: Performance &
+Tuning** (load, vmstat/iostat/sar, sysctl, ulimits, OOM, basic capacity).
+
+Remaining tracks after linux-administration, in `curriculum.json` order: shell-bash,
+python-automation, networking, windows-administration, windows-server-ad, powershell,
+security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
+cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
+backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts.)
 
 ### Then (subsequent batches), per `curriculum.json` track order
 linux-administration → shell-bash → networking → security → git-vcs →
