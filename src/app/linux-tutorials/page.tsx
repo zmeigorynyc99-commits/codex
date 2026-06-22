@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { absoluteUrl, siteConfig } from '@/lib/site';
-import { listCourseLessons, listCategories, type CourseFilters } from '@/lib/cms/tutorials';
+import {
+  listCourseLessons,
+  listCategories,
+  listStandaloneGuides,
+  type CourseFilters,
+} from '@/lib/cms/tutorials';
 import { isDifficulty, isDistribution } from '@/lib/cms/constants';
 import { readingTime } from '@/lib/cms/markdown';
 import { formatDate } from '@/lib/cms/format';
@@ -47,6 +52,8 @@ export default function LinuxTutorialsPage({ searchParams }: PageProps) {
   // Canonical, de-duplicated, numerically-ordered course sequence.
   const lessons = listCourseLessons(filters);
   const categories = listCategories();
+  // Long-form standalone guides (not part of the numbered course).
+  const guides = hasFilters ? [] : listStandaloneGuides();
 
   const cards: LessonCardData[] = lessons.map((t) => ({
     slug: t.slug,
@@ -128,6 +135,34 @@ export default function LinuxTutorialsPage({ searchParams }: PageProps) {
             <SubnetCheatSheet />
           </aside>
         </div>
+      )}
+
+      {guides.length > 0 && (
+        <section aria-labelledby="guides-heading" className="mt-12">
+          <h2 id="guides-heading" className="mb-3 text-xl font-bold">
+            In-depth guides
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {guides.map((g) => (
+              <Link
+                key={g.slug}
+                href={`/linux-tutorials/${g.slug}`}
+                className="card group block no-underline transition hover:ring-2 hover:ring-brand-500/40"
+              >
+                <div className="mb-2 flex flex-wrap gap-1.5">
+                  <span className={`badge badge-difficulty-${g.difficulty.toLowerCase()}`}>
+                    {g.difficulty}
+                  </span>
+                  {g.category && <span className="badge badge-neutral">{g.category.name}</span>}
+                </div>
+                <h3 className="font-semibold text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+                  {g.title}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">{g.summary}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );

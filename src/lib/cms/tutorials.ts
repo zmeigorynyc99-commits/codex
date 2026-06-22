@@ -441,6 +441,22 @@ export function listCourseLessons(filters: CourseFilters = {}, db: DB = getDb())
   return items;
 }
 
+/**
+ * Published tutorials that are NOT part of the numbered course (no lesson_order) —
+ * e.g. long-form standalone guides. Surfaced separately from the lesson carousel
+ * so they remain reachable without polluting the ordered sequence.
+ */
+export function listStandaloneGuides(db: DB = getDb()): Tutorial[] {
+  const rows = db
+    .prepare(
+      `SELECT * FROM tutorials
+       WHERE status = 'published' AND lesson_order IS NULL
+       ORDER BY COALESCE(published_at, created_at) DESC`,
+    )
+    .all() as TutorialRow[];
+  return rows.map((r) => mapRow(db, r));
+}
+
 export function listFeaturedPublished(limit = 3, db: DB = getDb()): Tutorial[] {
   const rows = db
     .prepare(
