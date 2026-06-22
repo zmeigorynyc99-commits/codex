@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { MIGRATIONS } from './migrations';
 import { DEFAULT_CATEGORIES } from './constants';
+import { seedNetworkingTutorial } from './seed-tutorials';
 
 type DB = Database.Database;
 
@@ -47,7 +48,7 @@ function migrate(db: DB): void {
   }
 }
 
-function open(filePath: string): DB {
+function open(filePath: string, seedContent = true): DB {
   if (filePath !== ':memory:') {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
   }
@@ -55,6 +56,7 @@ function open(filePath: string): DB {
   db.pragma('journal_mode = WAL');
   db.pragma('foreign_keys = ON');
   migrate(db);
+  if (seedContent) seedNetworkingTutorial(db);
   return db;
 }
 
@@ -68,7 +70,7 @@ export function getDb(): DB {
 
 /** Creates an isolated in-memory database (used by tests). */
 export function createTestDb(): DB {
-  return open(':memory:');
+  return open(':memory:', false);
 }
 
 /** Resets the shared connection (used by tests). */
