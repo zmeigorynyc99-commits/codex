@@ -136,19 +136,23 @@ NOTE: two content pipelines now coexist — the file-based curriculum importer
 networking guide seeded on db open). Keep them separate; the carousel/All-lessons
 use listCourseLessons (lesson_order), guides use listStandaloneGuides (null order).
 
-## ▶️ Next up (Batch 8) — continue linux-administration
+### ✅ Batch 8 — LinuxAdmin Module 4 + Shell & Bash track (DONE, on main)
+- Linux Administration Module 4 (212–215): performance methodology & load [Adv],
+  CPU & memory [Adv], disk & I/O [Adv], kernel tuning sysctl & limits [Senior].
+  **linux-administration track COMPLETE (15 lessons, 201–215).**
+- Shell & Bash Scripting track started + finished foundations (301–308, with cover):
+  301 first script, 302 variables/quoting, 303 conditionals, 304 loops, 305
+  functions/args/getopts, 306 arrays & assoc arrays, 307 robust scripts (set -euo
+  pipefail/traps/ShellCheck) [Adv], 308 parameter expansion & strings [Adv].
+  **shell-bash track COMPLETE (8 lessons).**
+- Course now **41 ordered lessons** (1→41). 428 tests pass, typecheck clean, build OK.
 
-**Module 3: Scheduling, Logging & Time** (Intermediate→Advanced):
-- 209 cron & systemd timers in depth (crontab, OnCalendar, persistent timers)
-- 210 Logging architecture (journald config, rsyslog, central logging, logrotate)
-- 211 Time sync (chrony/systemd-timesyncd, timezones, why clock drift breaks things)
-Then **Module 4: Performance & Tuning** (Advanced→Senior):
-- 212 Performance methodology & load (uptime, vmstat, the USE method)
-- 213 CPU & memory analysis (top/pidstat, OOM, memory pressure)
-- 214 Disk & I/O (iostat, iotop), 215 sysctl & limits (ulimit, nofile, kernel params)
+## ▶️ Next up (Batch 9)
 
-Then the track is complete → next track per `curriculum.json`: shell-bash, then
-python-automation, networking, windows-administration, windows-server-ad, powershell,
+Next track per `curriculum.json`: **python-automation**, then networking (note: a
+standalone "Zero to Hero Networking" guide already exists via seed-tutorials.ts —
+the file-based `networking` track is still unwritten), then
+windows-administration, windows-server-ad, powershell,
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts.)
