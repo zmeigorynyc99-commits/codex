@@ -21,6 +21,7 @@ interface TutorialRow {
   seo_description: string | null;
   status: string;
   featured: number;
+  lesson_order: number | null;
   published_at: string | null;
   created_at: string;
   updated_at: string;
@@ -69,6 +70,7 @@ function mapRow(db: DB, row: TutorialRow): Tutorial {
     seoDescription: row.seo_description,
     status: row.status as Status,
     featured: row.featured === 1,
+    lessonOrder: row.lesson_order ?? null,
     publishedAt: row.published_at ? toIso(row.published_at) : null,
     createdAt: toIso(row.created_at),
     updatedAt: toIso(row.updated_at),
@@ -360,6 +362,83 @@ export function listLatestPublished(limit = 5, db: DB = getDb()): Tutorial[] {
     )
     .all(limit) as TutorialRow[];
   return rows.map((r) => mapRow(db, r));
+}
+
+// ---- Course carousel (ordered, de-duplicated lesson sequence) ----
+
+/** Normalised key used to detect duplicate lessons regardless of database id. */
+function lessonCanonicalKey(t: Tutorial): string {
+  return t.title
+    .replace(/^lesson\s+\d+\s*[·:.\-]\s*/i, '') // drop any "Lesson N · " index prefix
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Higher score = more complete; used to keep the best copy of a duplicate. */
+function lessonCompleteness(t: Tutorial): number {
+  return (t.content?.length ?? 0) + (t.coverImage ? 100_000 : 0) + (t.summary ? 1_000 : 0);
+}
+
+export interface CourseFilters {
+  search?: string;
+  category?: string; // category slug
+  difficulty?: Difficulty;
+  distribution?: Distribution;
+}
+
+/**
+ * Returns the published curriculum lessons as a single ordered course sequence:
+ * sorted numerically by `lesson_order`, with duplicates removed (by canonical
+ * title/slug/content, not just id), keeping exactly one complete copy of each.
+ * This is the canonical source for the lessons carousel — any filtering happens
+ * after de-duplication so filters can never reintroduce duplicate cards.
+ */
+export function listCourseLessons(filters: CourseFilters = {}, db: DB = getDb()): Tutorial[] {
+  const rows = db
+    .prepare(
+      `SELECT * FROM tutorials
+       WHERE status = 'published' AND lesson_order IS NOT NULL
+       ORDER BY lesson_order ASC, id ASC`,
+    )
+    .all() as TutorialRow[];
+
+  // De-duplicate: collapse rows that resolve to the same canonical lesson,
+  // keeping the most complete copy (and the lowest lesson_order on ties).
+  const bySlug = new Map<string, Tutorial>();
+  const byCanonical = new Map<string, Tutorial>();
+  for (const row of rows) {
+    const t = mapRow(db, row);
+    if (bySlug.has(t.slug)) continue; // slug is unique in DB, but guard anyway
+    bySlug.set(t.slug, t);
+    const key = lessonCanonicalKey(t);
+    const existing = byCanonical.get(key);
+    if (!existing || lessonCompleteness(t) > lessonCompleteness(existing)) {
+      byCanonical.set(key, t);
+    }
+  }
+
+  let items = [...byCanonical.values()].sort((a, b) => {
+    const ao = a.lessonOrder ?? Number.MAX_SAFE_INTEGER;
+    const bo = b.lessonOrder ?? Number.MAX_SAFE_INTEGER;
+    return ao - bo || a.id - b.id;
+  });
+
+  // Apply filters AFTER de-duplication and ordering.
+  if (filters.difficulty) items = items.filter((t) => t.difficulty === filters.difficulty);
+  if (filters.distribution) items = items.filter((t) => t.distribution === filters.distribution);
+  if (filters.category) items = items.filter((t) => t.category?.slug === filters.category);
+  if (filters.search && filters.search.trim()) {
+    const q = filters.search.trim().toLowerCase();
+    items = items.filter(
+      (t) =>
+        t.title.toLowerCase().includes(q) ||
+        t.summary.toLowerCase().includes(q) ||
+        t.content.toLowerCase().includes(q),
+    );
+  }
+
+  return items;
 }
 
 export function listFeaturedPublished(limit = 3, db: DB = getDb()): Tutorial[] {

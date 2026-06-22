@@ -72,6 +72,7 @@ function ensureSchema(db) {
       seo_description TEXT,
       status TEXT NOT NULL DEFAULT 'draft',
       featured INTEGER NOT NULL DEFAULT 0,
+      lesson_order INTEGER,
       published_at TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -91,6 +92,12 @@ function ensureSchema(db) {
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
   `);
+  // Defensive: older databases may have a tutorials table without lesson_order.
+  const hasLessonOrder = db
+    .prepare("SELECT 1 FROM pragma_table_info('tutorials') WHERE name = 'lesson_order'")
+    .get();
+  if (!hasLessonOrder) db.exec('ALTER TABLE tutorials ADD COLUMN lesson_order INTEGER');
+  db.exec('CREATE INDEX IF NOT EXISTS idx_tutorials_lesson_order ON tutorials(lesson_order)');
 }
 
 // A lesson is a .md file inside a track directory. README.md and files starting
@@ -276,7 +283,7 @@ function main() {
              title=@title, summary=@summary, content=@content, cover_image=@cover_image,
              category_id=@category_id, difficulty=@difficulty, distribution=@distribution,
              author=@author, seo_title=@seo_title, seo_description=@seo_description,
-             status=@status, featured=@featured, updated_at=datetime('now')
+             status=@status, featured=@featured, lesson_order=@order, updated_at=datetime('now')
            WHERE id=@id`,
         ).run({ ...record, category_id: categoryId, id: existing.id });
         if (record.status === 'published') {
@@ -292,10 +299,10 @@ function main() {
           .prepare(
             `INSERT INTO tutorials
                (title, slug, summary, content, cover_image, category_id, difficulty, distribution,
-                author, seo_title, seo_description, status, featured, published_at)
+                author, seo_title, seo_description, status, featured, lesson_order, published_at)
              VALUES
                (@title, @slug, @summary, @content, @cover_image, @category_id, @difficulty, @distribution,
-                @author, @seo_title, @seo_description, @status, @featured, ${publishedAt ?? 'NULL'})`,
+                @author, @seo_title, @seo_description, @status, @featured, @order, ${publishedAt ?? 'NULL'})`,
           )
           .run({ ...record, category_id: categoryId });
         const id = Number(result.lastInsertRowid);

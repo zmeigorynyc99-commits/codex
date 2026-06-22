@@ -30,6 +30,7 @@ export interface Tutorial {
   seoDescription: string | null;
   status: Status;
   featured: boolean;
+  lessonOrder: number | null; // global curriculum ordering (null for non-course tutorials)
   publishedAt: string | null; // ISO 8601
   createdAt: string; // ISO 8601
   updatedAt: string; // ISO 8601

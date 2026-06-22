@@ -36,6 +36,17 @@ function migrate(db: DB): void {
   });
   runAll();
 
+  // Curriculum lessons carry a numeric `lesson_order` (the global ordering used
+  // by the course carousel). Added defensively so it works regardless of whether
+  // the file-based importer or the app touched the database first.
+  const hasLessonOrder = db
+    .prepare("SELECT 1 FROM pragma_table_info('tutorials') WHERE name = 'lesson_order'")
+    .get();
+  if (!hasLessonOrder) {
+    db.exec('ALTER TABLE tutorials ADD COLUMN lesson_order INTEGER');
+  }
+  db.exec('CREATE INDEX IF NOT EXISTS idx_tutorials_lesson_order ON tutorials(lesson_order)');
+
   // Seed default categories only when the table is empty.
   const count = (db.prepare('SELECT COUNT(*) AS n FROM categories').get() as { n: number }).n;
   if (count === 0) {
