@@ -28,6 +28,15 @@ const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, 'content', 'curriculum');
 const DB_PATH = (process.env.CMS_DB_PATH || path.join(ROOT, 'data', 'cms.db')).trim();
 const PRUNE = process.argv.includes('--prune');
+// `--fresh` wipes ALL tutorials (importer-owned and manually added) and reseeds
+// the curriculum from scratch — a clean slate that removes any legacy/duplicate
+// lessons. Destructive; intended to be run deliberately.
+const FRESH = process.argv.includes('--fresh');
+
+// Bump when the stored representation of a lesson changes (e.g. a new column the
+// importer must backfill) so every lesson re-syncs once even if its content is
+// otherwise unchanged. This is included in the idempotency hash.
+const IMPORT_VERSION = 2;
 
 const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced', 'Senior', 'Expert'];
 const DISTRIBUTIONS = ['Ubuntu', 'Debian', 'CentOS', 'Fedora', 'Arch', 'General Linux', 'Windows', 'Cross-platform'];
@@ -261,16 +270,35 @@ function main() {
   }
 
   const sync = db.transaction(() => {
+    if (FRESH) {
+      // Clean slate: remove every tutorial (cascades to tags/revisions/comments/
+      // likes) and the import ledger, then reseed below from the files.
+      db.prepare('DELETE FROM tutorials').run();
+      db.prepare('DELETE FROM imported_content').run();
+    }
     for (const { rel, record } of lessons) {
-      const hash = crypto.createHash('sha256').update(JSON.stringify(record)).digest('hex');
+      const hash = crypto
+        .createHash('sha256')
+        .update(`v${IMPORT_VERSION}\n${JSON.stringify(record)}`)
+        .digest('hex');
       const prior = findImport.get(record.slug);
       const categoryId = ensureCategory(db, record.category);
       const publishedAt = record.status === 'published' ? "datetime('now')" : null;
 
       if (prior && prior.content_hash === hash && prior.tutorial_id) {
-        // Confirm the tutorial still exists; if so, nothing to do.
-        const still = db.prepare('SELECT 1 FROM tutorials WHERE id = ?').get(prior.tutorial_id);
+        // Confirm the tutorial still exists; if so, the content is unchanged.
+        const still = db
+          .prepare('SELECT lesson_order FROM tutorials WHERE id = ?')
+          .get(prior.tutorial_id);
         if (still) {
+          // Always reconcile lesson_order even when content is unchanged, so the
+          // ordered carousel can never end up with NULL/stale ordering.
+          if (still.lesson_order !== record.order) {
+            db.prepare('UPDATE tutorials SET lesson_order = ? WHERE id = ?').run(
+              record.order,
+              prior.tutorial_id,
+            );
+          }
           unchanged += 1;
           continue;
         }
@@ -327,8 +355,9 @@ function main() {
   db.close();
 
   console.log(
-    `[import-content] ${files.length} files · created ${created} · updated ${updated} · ` +
-      `unchanged ${unchanged} · skipped ${skipped}${PRUNE ? ' · pruned removed lessons' : ''}`,
+    `[import-content]${FRESH ? ' [FRESH reseed]' : ''} ${files.length} files · created ${created} · ` +
+      `updated ${updated} · unchanged ${unchanged} · skipped ${skipped}` +
+      `${PRUNE ? ' · pruned removed lessons' : ''}`,
   );
   if (problems.length) {
     console.warn(`[import-content] ${problems.length} problem(s):`);
