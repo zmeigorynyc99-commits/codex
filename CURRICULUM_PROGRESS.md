@@ -118,7 +118,25 @@ Totals so far: 26 lessons (Linux Fundamentals 18 + Linux Administration 8).
 
 ---
 
-## ▶️ Next up (Batch 7) — continue linux-administration
+### ✅ Batch 7 — Linux Administration Module 3 + UI (DONE, on main)
+- 209 Scheduling with cron & systemd timers (env pitfalls, OnCalendar, Persistent)
+- 210 Logging Architecture [Advanced] (journald + rsyslog, journalctl, persistence/
+  capping, logrotate, central shipping)
+- 211 Time, Clocks & NTP (timedatectl, UTC/RTC, timesyncd vs chrony, drift)
+- UI: lesson carousel is click-safe + whole-card link + starts at Lesson 1; added
+  an always-clickable "All lessons" index, a Subnet (CIDR) cheat-sheet aside, and
+  an "In-depth guides" section for standalone (non-lesson_order) tutorials.
+- Numbering is now GLOBAL continuous (Lesson 1 → N), not per-track.
+- Merged the user's main: PR #12 TutorialCard fix + PR #13 seed-tutorials.ts
+  ("Zero to Hero Networking" standalone guide, seeded from db.ts, idempotent).
+  Course now 29 ordered lessons. Everything pushed to `main`.
+
+NOTE: two content pipelines now coexist — the file-based curriculum importer
+(content/curriculum, the numbered course) and seed-tutorials.ts (one standalone
+networking guide seeded on db open). Keep them separate; the carousel/All-lessons
+use listCourseLessons (lesson_order), guides use listStandaloneGuides (null order).
+
+## ▶️ Next up (Batch 8) — continue linux-administration
 
 **Module 3: Scheduling, Logging & Time** (Intermediate→Advanced):
 - 209 cron & systemd timers in depth (crontab, OnCalendar, persistent timers)
