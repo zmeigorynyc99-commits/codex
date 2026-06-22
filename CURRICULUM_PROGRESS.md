@@ -79,21 +79,28 @@ OK · importer clean (5 created, idempotent on re-run).
 Validation: importer imports 11 curriculum lessons cleanly; 78 content tests
 pass. (Levels exercised: Beginner + Intermediate.)
 
+### 🟡 Batch 3 — Linux Fundamentals, Module 3 (PARTIAL: 112–115 DONE, committed)
+- 112 Users, Groups & Identity (/etc/passwd, /etc/group, UID/GID, useradd/usermod, id)
+- 113 Permissions (rwx, octal 644/755/600, chmod sym+octal, chown/chgrp, umask)
+- 114 sudo & Privilege (sudo vs su, /etc/sudoers + visudo, scoped NOPASSWD, auditing)
+- 115 Processes & Jobs (ps, top/htop, signals, kill TERM vs KILL, &/jobs/fg/bg/nohup)
+
+Validation: importer imports 15 curriculum lessons cleanly; 106 content tests
+pass.
+
 ---
 
-## ▶️ Next up (suggested order for Batch 3)
+## ▶️ Next up (Batch 4) — finish Module 3, then the track is done
+- 116 systemd & Services (systemctl start/stop/enable, unit files, journalctl)
+- 117 Package Management (apt/dnf/pacman, repositories, updates, dpkg/rpm)
+- 118 Text Editors Survival (nano essentials + vim modal basics & how to quit vim)
 
-**Linux Fundamentals — Module 3: Users, Permissions & Processes** (Intermediate),
-which completes the track:
-- 112 Users & Groups (/etc/passwd, /etc/group, useradd/usermod/passwd, id)
-- 113 Permissions (rwx, octal, chmod, chown, chgrp, umask)
-- 114 sudo & privilege (sudoers, su vs sudo, least privilege)
-- 115 Processes (ps, top/htop, kill/signals, jobs, &, nohup)
-- 116 systemd & services (systemctl, units, journalctl)
-- 117 Package Management (apt/dnf/pacman, repos, updates)
-- 118 Text Editors Survival (nano + vim basics)
-
-After that, the track is complete → start **linux-administration** per the map.
+After 116–118 the **linux-fundamentals** track is complete → start
+**linux-administration** per `curriculum.json` order. Then shell-bash, networking,
+security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform,
+config-ansible, cloud-fundamentals, observability, databases, web-infra,
+windows-administration, windows-server-ad, powershell, storage, virtualization,
+backup-dr-ha, sre-platform, troubleshooting-ir.
 
 ### Then (subsequent batches), per `curriculum.json` track order
 linux-administration → shell-bash → networking → security → git-vcs →
