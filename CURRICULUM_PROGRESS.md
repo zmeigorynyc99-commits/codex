@@ -167,11 +167,21 @@ Course now **57 ordered lessons** (1→57). 400 content tests pass, build OK.
 Tracks done (5 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8).
 
-## ▶️ Next up (Batch 11) — remaining tracks per `curriculum.json` order
+### ✅ Batch 11 — Windows Administration + Windows Server & AD (DONE, on main)
+- windows-administration (601–606): OS model/navigation, registry, users/groups/UAC,
+  NTFS permissions, services/processes, event logs. **COMPLETE (6).** Cover added.
+- windows-server-ad (701–706): Windows Server & roles, AD concepts, manage AD
+  users/groups/computers (AGDLP), Group Policy [Adv], DNS/DHCP, AD security &
+  hardening [Senior]. **COMPLETE (6).** Cover added.
+Course now **69 ordered lessons** (1→69). 484 content tests pass, build OK.
 
-(note: a standalone "Zero to Hero Networking" guide also exists via
-seed-tutorials.ts — separate from the numbered networking track above.)
-windows-administration, windows-server-ad, powershell,
+Tracks done (7 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6).
+
+## ▶️ Next up (Batch 12) — remaining tracks per `curriculum.json` order
+
+powershell,
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
