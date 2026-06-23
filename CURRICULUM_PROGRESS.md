@@ -250,9 +250,24 @@ shell-bash (8), python-automation (8), networking (8), windows-administration (6
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
 kubernetes (8).
 
-## ▶️ Next up (Batch 17) — remaining tracks per `curriculum.json` order
+### ✅ Batch 17 — CI/CD Pipelines (DONE, on main)
+- cicd (1301–1308): fundamentals & pipeline mindset (CI/CD/CD, DORA); pipelines as code
+  (GitHub Actions, jobs/matrix/cache); testing & quality gates (test pyramid, flaky
+  tests) [Adv]; building & publishing artifacts (SHA tags, SBOM, OIDC) [Adv]; deployment
+  strategies (rolling/blue-green/canary, feature flags) [Adv]; GitOps & pipeline patterns
+  (Argo/Flux, pull-based) [Senior]; pipeline security/DevSecOps (SAST/SCA/scanning,
+  policy-as-code) [Senior]; troubleshooting & best practices (speed, DRY, observability)
+  [Adv]. **COMPLETE (8).** Cover added.
+Course now **115 ordered lessons** (1→115). 810 tests pass (806 content + 4 course).
 
-cicd, iac-terraform, config-ansible,
+Tracks done (13 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8).
+
+## ▶️ Next up (Batch 18) — remaining tracks per `curriculum.json` order
+
+iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)

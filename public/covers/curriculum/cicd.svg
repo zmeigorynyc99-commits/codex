@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="CI/CD Pipelines track">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#04140c"/><stop offset="0.55" stop-color="#06231a"/><stop offset="1" stop-color="#072b26"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22c55e"/><stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="8" fill="url(#accent)"/>
+  <g transform="translate(80,70)">
+    <rect width="52" height="52" rx="12" fill="#16a34a"/>
+    <text x="26" y="35" font-family="system-ui,sans-serif" font-size="24" font-weight="800" fill="#fff" text-anchor="middle">TT</text>
+    <text x="70" y="24" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#e2e8f0">botera</text>
+    <text x="70" y="46" font-family="system-ui,sans-serif" font-size="15" fill="#34d399" letter-spacing="2">INFRASTRUCTURE CURRICULUM</text>
+  </g>
+  <g transform="translate(80,210)">
+    <text font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#34d399" letter-spacing="3">TRACK · INTERMEDIATE → ADVANCED</text>
+    <text y="74" font-family="system-ui,sans-serif" font-size="64" font-weight="800" fill="#ffffff">CI/CD Pipelines</text>
+    <text y="128" font-family="system-ui,sans-serif" font-size="22" fill="#94a3b8">build · test · scan · release · deploy · GitOps</text>
+    <g transform="translate(0,168)" font-family="system-ui,sans-serif" font-size="17" font-weight="600">
+      <rect width="200" height="34" rx="17" fill="#14532d"/><text x="100" y="22" fill="#bbf7d0" text-anchor="middle">Automate everything</text>
+      <rect x="216" width="150" height="34" rx="17" fill="#1e293b"/><text x="291" y="22" fill="#cbd5e1" text-anchor="middle">Ship safely</text>
+    </g>
+  </g>
+  <g transform="translate(800,250)">
+    <circle cx="0"   cy="0" r="26" fill="#06231a" stroke="#22c55e" stroke-width="5"/>
+    <circle cx="110" cy="0" r="26" fill="#06231a" stroke="#22c55e" stroke-width="5"/>
+    <circle cx="220" cy="0" r="26" fill="#06231a" stroke="#22c55e" stroke-width="5"/>
+    <circle cx="330" cy="0" r="26" fill="#06231a" stroke="#14b8a6" stroke-width="5"/>
+    <line x1="26" y1="0" x2="84" y2="0" stroke="#34d399" stroke-width="5"/>
+    <line x1="136" y1="0" x2="194" y2="0" stroke="#34d399" stroke-width="5"/>
+    <line x1="246" y1="0" x2="304" y2="0" stroke="#34d399" stroke-width="5"/>
+    <path d="M-10 0 l7 8 l14 -16" stroke="#34d399" stroke-width="4" fill="none" stroke-linecap="round" transform="translate(0,0)"/>
+    <text x="0"   y="56" font-family="ui-monospace,monospace" font-size="14" fill="#86efac" text-anchor="middle">build</text>
+    <text x="110" y="56" font-family="ui-monospace,monospace" font-size="14" fill="#86efac" text-anchor="middle">test</text>
+    <text x="220" y="56" font-family="ui-monospace,monospace" font-size="14" fill="#86efac" text-anchor="middle">scan</text>
+    <text x="330" y="56" font-family="ui-monospace,monospace" font-size="14" fill="#5eead4" text-anchor="middle">deploy</text>
+  </g>
+  <text x="80" y="585" font-family="system-ui,sans-serif" font-size="18" font-weight="600" fill="#64748b">botera.md/linux-tutorials</text>
+</svg>
