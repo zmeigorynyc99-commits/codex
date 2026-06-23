@@ -193,9 +193,22 @@ Tracks done (8 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8), windows-administration (6),
 windows-server-ad (6), powershell (6).
 
-## ▶️ Next up (Batch 13) — remaining tracks per `curriculum.json` order
+### ✅ Batch 13 — Security & Defensive Operations (DONE, on main)
+- security (901–908): fundamentals & CIA triad; authentication/authorization & identity
+  (hashing/MFA/RBAC); cryptography basics (symmetric/asymmetric/TLS/PKI); network
+  security & firewalls (default-deny, zero trust, IDS/IPS); system hardening (patching,
+  SSH, CIS/Lynis) [Adv]; logging/monitoring & SIEM (detection, MTTD/MTTR) [Adv];
+  vulnerability management (CVE/CVSS/EPSS/KEV, risk-based) [Adv]; incident response
+  (IR lifecycle, forensics, blameless review) [Senior]. **COMPLETE (8).** Cover added.
+Course now **83 ordered lessons** (1→83). 582 content tests pass.
 
-security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
+Tracks done (9 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8).
+
+## ▶️ Next up (Batch 14) — remaining tracks per `curriculum.json` order
+
+git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
