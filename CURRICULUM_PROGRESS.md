@@ -235,9 +235,24 @@ Tracks done (11 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8), windows-administration (6),
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8).
 
-## ▶️ Next up (Batch 16) — remaining tracks per `curriculum.json` order
+### ✅ Batch 16 — Kubernetes (DONE, on main)
+- kubernetes (1201–1208): architecture & core concepts (control plane, reconciliation);
+  pods/deployments/replicasets (rolling updates/rollback); services & networking
+  (ClusterIP/NodePort/LB, DNS, Ingress) [Adv]; ConfigMaps & Secrets; storage &
+  StatefulSets (PV/PVC/StorageClass) [Adv]; health/scheduling/autoscaling (probes, QoS,
+  affinity, HPA) [Adv]; security & RBAC (Roles, ServiceAccounts, NetworkPolicy, PSS)
+  [Senior]; Helm, operators & troubleshooting (charts, CRDs, debugging method) [Senior].
+  **COMPLETE (8).** Cover added.
+Course now **107 ordered lessons** (1→107). 754 tests pass (750 content + 4 course).
 
-kubernetes, cicd, iac-terraform, config-ansible,
+Tracks done (12 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8).
+
+## ▶️ Next up (Batch 17) — remaining tracks per `curriculum.json` order
+
+cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
