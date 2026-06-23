@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Windows Server and Active Directory track">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020617"/>
+      <stop offset="0.6" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#1a1140"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="8" fill="url(#accent)"/>
+
+  <g transform="translate(80,70)">
+    <rect width="52" height="52" rx="12" fill="#2563eb"/>
+    <text x="26" y="35" font-family="system-ui,sans-serif" font-size="24" font-weight="800" fill="#fff" text-anchor="middle">TT</text>
+    <text x="70" y="24" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#e2e8f0">botera</text>
+    <text x="70" y="46" font-family="system-ui,sans-serif" font-size="15" fill="#a78bfa" letter-spacing="2">INFRASTRUCTURE CURRICULUM</text>
+  </g>
+
+  <g transform="translate(80,205)">
+    <text font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#a78bfa" letter-spacing="3">TRACK · INTERMEDIATE → SENIOR</text>
+    <text y="70" font-family="system-ui,sans-serif" font-size="50" font-weight="800" fill="#ffffff">Windows Server &amp;</text>
+    <text y="126" font-family="system-ui,sans-serif" font-size="50" font-weight="800" fill="#ffffff">Active Directory</text>
+    <text y="186" font-family="system-ui,sans-serif" font-size="22" fill="#94a3b8">domains · OUs · users &amp; groups · Group Policy · DNS/DHCP</text>
+    <g transform="translate(0,226)" font-family="system-ui,sans-serif" font-size="17" font-weight="600">
+      <rect width="172" height="34" rx="17" fill="#3730a3"/>
+      <text x="86" y="22" fill="#c7d2fe" text-anchor="middle">Enterprise scale</text>
+      <rect x="188" width="160" height="34" rx="17" fill="#1e293b"/>
+      <text x="268" y="22" fill="#cbd5e1" text-anchor="middle">AZ-800/801</text>
+    </g>
+  </g>
+
+  <g transform="translate(770,150)">
+    <!-- AD tree / OU diagram -->
+    <g stroke="#a78bfa" stroke-width="2" fill="none" opacity="0.85">
+      <line x1="170" y1="60" x2="80" y2="140"/>
+      <line x1="170" y1="60" x2="260" y2="140"/>
+      <line x1="80" y1="170" x2="80" y2="230"/>
+      <line x1="260" y1="170" x2="260" y2="230"/>
+    </g>
+    <g font-family="ui-monospace,monospace" font-size="12" fill="#cbd5e1">
+      <rect x="120" y="36" width="100" height="34" rx="6" fill="#241a52" stroke="#a78bfa"/>
+      <text x="170" y="58" text-anchor="middle" fill="#ddd6fe">botera.local</text>
+      <rect x="40" y="140" width="80" height="32" rx="6" fill="#1b1440" stroke="#8b5cf6"/>
+      <text x="80" y="161" text-anchor="middle" fill="#c4b5fd">OU=Staff</text>
+      <rect x="220" y="140" width="80" height="32" rx="6" fill="#1b1440" stroke="#8b5cf6"/>
+      <text x="260" y="161" text-anchor="middle" fill="#c4b5fd">OU=Servers</text>
+      <rect x="44" y="230" width="72" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+      <text x="80" y="250" text-anchor="middle" fill="#a5b4fc">users</text>
+      <rect x="224" y="230" width="72" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+      <text x="260" y="250" text-anchor="middle" fill="#a5b4fc">DCs</text>
+    </g>
+  </g>
+
+  <text x="80" y="585" font-family="system-ui,sans-serif" font-size="18" font-weight="600" fill="#64748b">botera.md/linux-tutorials</text>
+</svg>
