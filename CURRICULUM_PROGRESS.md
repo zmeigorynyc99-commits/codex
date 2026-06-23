@@ -221,9 +221,23 @@ Tracks done (10 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8), windows-administration (6),
 windows-server-ad (6), powershell (6), security (8), git-vcs (8).
 
-## ▶️ Next up (Batch 15) — remaining tracks per `curriculum.json` order
+### ✅ Batch 15 — Docker & Containers (DONE, on main)
+- docker-containers (1101–1108): containers from first principles (vs VMs, namespaces/
+  cgroups/union FS); images & Dockerfiles (layers, cache, CMD vs ENTRYPOINT); data,
+  volumes & persistence; container networking (user-defined bridge, DNS, publish vs
+  EXPOSE); Docker Compose (healthchecks, depends_on, overrides); registries & image
+  distribution (tags vs digests, multi-arch); production image hygiene & security
+  (multi-stage, distroless, non-root, scanning) [Adv]; troubleshooting & best practices
+  (exit codes, 12-factor, limits/restart) [Adv]. **COMPLETE (8).** Cover added.
+Course now **99 ordered lessons** (1→99). 694 content tests pass.
 
-docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
+Tracks done (11 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8).
+
+## ▶️ Next up (Batch 16) — remaining tracks per `curriculum.json` order
+
+kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
