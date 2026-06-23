@@ -309,8 +309,23 @@ shell-bash (8), python-automation (8), networking (8), windows-administration (6
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
 kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8), cloud-fundamentals (8).
 
-## ▶️ Next up (Batch 21) — remaining tracks per `curriculum.json` order
-observability, databases, web-infra, virtualization, storage, backup-dr-ha, sre-platform,
+### ✅ Batch 21 — Monitoring, Logging & Observability (DONE, on main)
+- observability (1701–1708): fundamentals & three pillars; metrics & time-series
+  (Prometheus, PromQL, RED/USE) [Adv]; logging & log management (structured, ELK/Loki,
+  correlation IDs) [Adv]; distributed tracing (spans, OTel, sampling) [Adv]; dashboards &
+  visualization (Grafana, golden signals); alerting & on-call (symptom-based, fatigue,
+  runbooks) [Adv]; SLIs/SLOs & error budgets (burn rate) [Senior]; building an observable
+  system (OTel, debugging workflow) [Senior]. **COMPLETE (8).** Cover added.
+Course now **147 ordered lessons** (1→147). 1034 tests pass (1030 content + 4 course).
+
+Tracks done (17 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8), cloud-fundamentals (8),
+observability (8).
+
+## ▶️ Next up (Batch 22) — remaining tracks per `curriculum.json` order
+databases, web-infra, virtualization, storage, backup-dr-ha, sre-platform,
 troubleshooting-ir.
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
