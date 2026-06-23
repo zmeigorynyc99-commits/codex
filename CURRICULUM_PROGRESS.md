@@ -179,9 +179,22 @@ Tracks done (7 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8), windows-administration (6),
 windows-server-ad (6).
 
-## ▶️ Next up (Batch 12) — remaining tracks per `curriculum.json` order
+### ✅ Batch 12 — PowerShell (DONE, on main)
+- powershell (801–806): the object pipeline (objects, not text); cmdlets/providers/help
+  (Get-Command/Get-Help/Get-Member discovery toolkit); variables, operators, arrays &
+  hashtables; control flow & functions (switch, loops, advanced functions, splatting);
+  scripts, modules & error handling (execution policy, try/catch, terminating vs
+  non-terminating); remoting & practical automation (Invoke-Command fan-out,
+  ForEach-Object -Parallel, credentials, CSV/JSON fleet report). **COMPLETE (6).**
+  Cover added.
+Course now **75 ordered lessons** (1→75). 526 content tests pass.
 
-powershell,
+Tracks done (8 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6).
+
+## ▶️ Next up (Batch 13) — remaining tracks per `curriculum.json` order
+
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
