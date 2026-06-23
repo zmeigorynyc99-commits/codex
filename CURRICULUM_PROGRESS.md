@@ -147,15 +147,25 @@ use listCourseLessons (lesson_order), guides use listStandaloneGuides (null orde
   **shell-bash track COMPLETE (8 lessons).**
 - Course now **41 ordered lessons** (1→41). 428 tests pass, typecheck clean, build OK.
 
-## ▶️ Next up (Batch 9)
+### ✅ Batch 9 — Python for Automation track (DONE, on main)
+401 first steps, 402 types/lists/dicts, 403 control flow & functions, 404 files &
+text (pathlib), 405 subprocess [Int], 406 JSON/APIs/HTTP [Int], 407 venv & pip [Int],
+408 robust CLI tools (argparse/logging) [Adv], with cover. **python-automation track
+COMPLETE (8 lessons).** Course now **49 ordered lessons** (1→49). 344 content tests
+pass, build OK.
 
-Next track per `curriculum.json`: **python-automation**, then networking (note: a
-standalone "Zero to Hero Networking" guide already exists via seed-tutorials.ts —
-the file-based `networking` track is still unwritten), then
+Tracks done so far (4 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8).
+
+## ▶️ Next up (Batch 10) — remaining tracks per `curriculum.json` order
+
+networking (note: a standalone "Zero to Hero Networking" guide already exists via
+seed-tutorials.ts; the file-based `networking` track is still unwritten), then
 windows-administration, windows-server-ad, powershell,
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
-backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts.)
+backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
+use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
 
 ### Then (subsequent batches), per `curriculum.json` track order
 linux-administration → shell-bash → networking → security → git-vcs →
