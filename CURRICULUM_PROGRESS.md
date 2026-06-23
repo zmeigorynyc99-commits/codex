@@ -157,10 +157,20 @@ pass, build OK.
 Tracks done so far (4 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8).
 
-## ▶️ Next up (Batch 10) — remaining tracks per `curriculum.json` order
+### ✅ Batch 10 — Networking track (DONE, on main)
+501 OSI & TCP/IP models, 502 IP addressing & subnetting [Int], 503 Ethernet/MAC/
+switching [Int], 504 routing fundamentals [Int], 505 TCP/UDP & ports [Int], 506 DNS
+deep dive [Int], 507 DHCP & common services [Int], 508 troubleshooting & packet
+analysis [Senior]. Cover added. **networking track COMPLETE (8 lessons).**
+Course now **57 ordered lessons** (1→57). 400 content tests pass, build OK.
 
-networking (note: a standalone "Zero to Hero Networking" guide already exists via
-seed-tutorials.ts; the file-based `networking` track is still unwritten), then
+Tracks done (5 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8).
+
+## ▶️ Next up (Batch 11) — remaining tracks per `curriculum.json` order
+
+(note: a standalone "Zero to Hero Networking" guide also exists via
+seed-tutorials.ts — separate from the numbered networking track above.)
 windows-administration, windows-server-ad, powershell,
 security, git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
