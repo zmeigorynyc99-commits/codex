@@ -265,9 +265,24 @@ shell-bash (8), python-automation (8), networking (8), windows-administration (6
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
 kubernetes (8), cicd (8).
 
-## ▶️ Next up (Batch 18) — remaining tracks per `curriculum.json` order
+### ✅ Batch 18 — Infrastructure as Code / Terraform (DONE, on main)
+- iac-terraform (1401–1408): IaC fundamentals & first Terraform (declarative/idempotent,
+  plan/apply); state (remote backends, locking, drift) [Adv]; variables/outputs/
+  expressions (for_each vs count); modules & reusability [Adv]; provisioning real
+  resources (providers, data sources, graph, lifecycle) [Adv]; workflows & collaboration
+  (plan-on-PR/apply-on-merge, policy-as-code) [Senior]; other IaC tools (Pulumi/CFN/CDK/
+  Crossplane); best practices & troubleshooting (import, drift, testing) [Adv].
+  **COMPLETE (8).** Cover added.
+Course now **123 ordered lessons** (1→123). 866 tests pass (862 content + 4 course).
 
-iac-terraform, config-ansible,
+Tracks done (14 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8), iac-terraform (8).
+
+## ▶️ Next up (Batch 19) — remaining tracks per `curriculum.json` order
+
+config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
