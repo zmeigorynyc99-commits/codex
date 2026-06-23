@@ -206,9 +206,24 @@ Tracks done (9 of 24): linux-fundamentals (18), linux-administration (15),
 shell-bash (8), python-automation (8), networking (8), windows-administration (6),
 windows-server-ad (6), powershell (6), security (8).
 
-## ▶️ Next up (Batch 14) — remaining tracks per `curriculum.json` order
+### ✅ Batch 14 — Git & Version Control (DONE, on main)
+- git-vcs (1001–1008): fundamentals & the three trees; branching & merging (HEAD,
+  fast-forward vs three-way, conflicts); remotes & collaboration (fetch/pull/push,
+  origin/main, non-FF rejections); rebasing & rewriting history (interactive rebase,
+  golden rule, reflog) [Adv]; undoing things & recovery (reset/revert/restore/clean)
+  [Adv]; team workflows & pull requests (trunk-based/Git Flow, review, branch
+  protection); practical toolkit (stash/cherry-pick/tags/bisect) [Adv]; best practices
+  & pro config (gitignore/attributes, secrets, Conventional Commits, LFS) [Adv].
+  **COMPLETE (8).** Cover added.
+Course now **91 ordered lessons** (1→91). 638 content tests pass.
 
-git-vcs, docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
+Tracks done (10 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8).
+
+## ▶️ Next up (Batch 15) — remaining tracks per `curriculum.json` order
+
+docker-containers, kubernetes, cicd, iac-terraform, config-ansible,
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
