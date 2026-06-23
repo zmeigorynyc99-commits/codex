@@ -324,9 +324,24 @@ windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-contain
 kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8), cloud-fundamentals (8),
 observability (8).
 
-## ▶️ Next up (Batch 22) — remaining tracks per `curriculum.json` order
-databases, web-infra, virtualization, storage, backup-dr-ha, sre-platform,
-troubleshooting-ir.
+### ✅ Batch 22 — Databases & Data Infrastructure (DONE, on main)
+- databases (1801–1808): fundamentals & data models (relational/NoSQL, OLTP/OLAP); SQL &
+  querying (joins, GROUP BY, CTEs, windows); schema design & normalization (keys,
+  constraints, migrations) [Adv]; indexing & query performance (B-trees, EXPLAIN) [Adv];
+  transactions & ACID (isolation, deadlocks, concurrency) [Adv]; replication/scaling/HA
+  (replicas, sharding, CAP) [Senior]; backups/recovery/operations (PITR, restore testing)
+  [Adv]; operating in production (managed vs self-host, security, capacity) [Senior].
+  **COMPLETE (8).** Cover added.
+Course now **155 ordered lessons** (1→155). 1090 tests pass (1086 content + 4 course).
+
+Tracks done (18 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8), cloud-fundamentals (8),
+observability (8), databases (8).
+
+## ▶️ Next up (Batch 23) — remaining tracks per `curriculum.json` order
+web-infra, virtualization, storage, backup-dr-ha, sre-platform, troubleshooting-ir.
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
