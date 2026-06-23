@@ -294,7 +294,24 @@ shell-bash (8), python-automation (8), networking (8), windows-administration (6
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
 kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8).
 
-## ▶️ Next up (Batch 20) — remaining tracks per `curriculum.json` order
+### ✅ Batch 20 — Cloud Fundamentals (DONE, on main)
+- cloud-fundamentals (1601–1608): fundamentals & service models (IaaS/PaaS/SaaS, shared
+  responsibility); compute (VMs/containers/serverless, autoscaling); storage & databases
+  (object/block/file, managed DBs); networking & IAM (VPC, security groups, least
+  privilege) [Adv]; security & compliance (KMS, threat detection, CSPM) [Adv]; serverless
+  & managed services (event-driven, queues) [Adv]; cost management & FinOps [Adv];
+  architecture & Well-Architected (HA, RTO/RPO, pillars) [Senior]. **COMPLETE (8).**
+  Cover added.
+Course now **139 ordered lessons** (1→139). 978 tests pass (974 content + 4 course).
+
+Tracks done (16 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8), cloud-fundamentals (8).
+
+## ▶️ Next up (Batch 21) — remaining tracks per `curriculum.json` order
+observability, databases, web-infra, virtualization, storage, backup-dr-ha, sre-platform,
+troubleshooting-ir.
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
