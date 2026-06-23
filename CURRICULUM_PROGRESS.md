@@ -280,9 +280,21 @@ shell-bash (8), python-automation (8), networking (8), windows-administration (6
 windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
 kubernetes (8), cicd (8), iac-terraform (8).
 
-## ▶️ Next up (Batch 19) — remaining tracks per `curriculum.json` order
+### ✅ Batch 19 — Configuration Management / Ansible (DONE, on main)
+- config-ansible (1501–1508): fundamentals & agentless automation (idempotency, modules);
+  playbooks & tasks (handlers, check mode); variables/facts/templates (Jinja2, group_vars)
+  [Adv]; roles & reusable structure (Galaxy, collections) [Adv]; orchestrating real
+  deployments (serial/rolling, block/rescue, delegation) [Adv]; Vault & secrets [Adv];
+  testing & quality (Molecule, ansible-lint, idempotence) [Adv]; best practices &
+  troubleshooting (performance, debugging) [Adv]. **COMPLETE (8).** Cover added.
+Course now **131 ordered lessons** (1→131). 922 tests pass (918 content + 4 course).
 
-config-ansible,
+Tracks done (15 of 24): linux-fundamentals (18), linux-administration (15),
+shell-bash (8), python-automation (8), networking (8), windows-administration (6),
+windows-server-ad (6), powershell (6), security (8), git-vcs (8), docker-containers (8),
+kubernetes (8), cicd (8), iac-terraform (8), config-ansible (8).
+
+## ▶️ Next up (Batch 20) — remaining tracks per `curriculum.json` order
 cloud-fundamentals, observability, databases, web-infra, virtualization, storage,
 backup-dr-ha, sre-platform, troubleshooting-ir. (Add a track cover SVG as each starts;
 use order 5xx for networking, 6xx for the next, etc., keeping global order increasing.)
