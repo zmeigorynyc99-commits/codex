@@ -1,74 +1,7 @@
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        # Override these at build time (e.g. in CI) to match your domain.
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://tinytools.example}
-        NEXT_PUBLIC_ANALYTICS_DOMAIN: ${NEXT_PUBLIC_ANALYTICS_DOMAIN:-}
-        NEXT_PUBLIC_ANALYTICS_SRC: ${NEXT_PUBLIC_ANALYTICS_SRC:-}
-        NEXT_PUBLIC_DONATE_URL: ${NEXT_PUBLIC_DONATE_URL:-}
-        NEXT_PUBLIC_COFFEE_URL: ${NEXT_PUBLIC_COFFEE_URL:-}
-        NEXT_PUBLIC_SUPPORT_URL: ${NEXT_PUBLIC_SUPPORT_URL:-}
-        NEXT_PUBLIC_ENABLE_ADS: ${NEXT_PUBLIC_ENABLE_ADS:-false}
-        NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION:-}
-        NEXT_PUBLIC_BING_SITE_VERIFICATION: ${NEXT_PUBLIC_BING_SITE_VERIFICATION:-}
-        NEXT_PUBLIC_YANDEX_SITE_VERIFICATION: ${NEXT_PUBLIC_YANDEX_SITE_VERIFICATION:-}
-    image: tiny-tools:latest
-    container_name: tiny-tools-web
-    restart: unless-stopped
-    environment:
-      # Runtime CMS configuration (database + uploads live on the volume).
-      CMS_DB_PATH: /app/data/cms.db
-      CMS_UPLOAD_DIR: /app/data/uploads
-      # IndexNow key (instant indexing pings); served at /indexnow.
-      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
-    expose:
-      - "3000"
-    # No host port published: only nginx talks to the app over the internal network.
-    volumes:
-      # Persists the SQLite database and uploaded images across deploys.
-      - cms-data:/app/data
-    networks:
-      - web
-    deploy:
-      resources:
-        limits:
-          memory: 320M
-
-  nginx:
-    image: nginx:1.27-alpine
-    container_name: tiny-tools-nginx
-    restart: unless-stopped
-    depends_on:
-      - web
+  course:
+    build: .
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:8080"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/certbot/www:/var/www/certbot:ro
-      - ./nginx/certbot/conf:/etc/letsencrypt:ro
-    networks:
-      - web
-
-  # On-demand certificate issuance/renewal. See DEPLOYMENT.md.
-  certbot:
-    image: certbot/certbot:latest
-    container_name: tiny-tools-certbot
-    volumes:
-      - ./nginx/certbot/www:/var/www/certbot:rw
-      - ./nginx/certbot/conf:/etc/letsencrypt:rw
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;'"
-    networks:
-      - web
-
-networks:
-  web:
-    driver: bridge
-
-volumes:
-  # Holds the CMS SQLite database and uploaded tutorial images.
-  cms-data:
+      - .:/course:ro
